@@ -269,57 +269,61 @@
     const ID_VISITAS = "galeria_wrs_2026_main"; 
     const ID_LIKES = "galeria_wrs_likes_2026_main"; 
 
-   const playlist = [
-    { url: 'https://www.dropbox.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt&dl=1', name: 'The Sound of Silence' },
-    { url: 'https://www.dropbox.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo&dl=1', name: 'Eminem - You Dont Know' },
-    { url: 'https://www.dropbox.com/scl/fi/dxueil8ofydhnee9lvrk5/Bon-Jovi-livin-on-a-prayer.mp3.mp3?rlkey=06y21a3rhreta1elo2euhcnlr&dl=1', name: 'Bon Jovi - Livin on a Prayer' },
-    { url: 'https://www.dropbox.com/scl/fi/cqqhzkv1ll1p09z7qgylp/Desireless-voyage-voyage.mp3.mp3?rlkey=hscvkehw7n7vvgi2im4rwhom7&dl=1', name: 'Desireless - Voyage Voyage' }
-];
+    const playlist = [
+        { url: 'https://www.dropbox.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt&dl=1', name: 'The Sound of Silence' },
+        { url: 'https://www.dropbox.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo&dl=1', name: 'Eminem - You Dont Know' },
+        { url: 'https://www.dropbox.com/scl/fi/dxueil8ofydhnee9lvrk5/Bon-Jovi-livin-on-a-prayer.mp3.mp3?rlkey=06y21a3rhreta1elo2euhcnlr&dl=1', name: 'Bon Jovi - Livin on a Prayer' },
+        { url: 'https://www.dropbox.com/scl/fi/cqqhzkv1ll1p09z7qgylp/Desireless-voyage-voyage.mp3.mp3?rlkey=hscvkehw7n7vvgi2im4rwhom7&dl=1', name: 'Desireless - Voyage Voyage' }
+    ];
     
     let currentTrack = 0;
-    const audio = document.getElementById('audioPlayer');
+    let isPlaying = false;
+    const audio = new Audio(); // Criado de forma global para melhor controle
 
     function loadTrack(index) {
         currentTrack = index;
         audio.src = playlist[currentTrack].url;
-        document.getElementById('track-display').innerText = playlist[currentTrack].name;
+        const display = document.getElementById('track-display');
+        if(display) display.innerText = playlist[currentTrack].name;
     }
     
     function changeTrack(dir) {
         currentTrack = (currentTrack + dir + playlist.length) % playlist.length;
         loadTrack(currentTrack);
         audio.play();
+        isPlaying = true;
         document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
     }
 
-    function changeVolume(val) { audio.volume = val; }
-    
     function controlMusic() {
         const btn = document.getElementById('music-btn');
-        if (audio.paused) { audio.play(); btn.innerHTML = '<i class="fas fa-pause"></i>'; }
-        else { audio.pause(); btn.innerHTML = '<i class="fas fa-play"></i>'; }
+        if (audio.paused) { 
+            audio.play(); 
+            btn.innerHTML = '<i class="fas fa-pause"></i>'; 
+            isPlaying = true;
+        } else { 
+            audio.pause(); 
+            btn.innerHTML = '<i class="fas fa-play"></i>'; 
+            isPlaying = false;
+        }
     }
 
     audio.onended = () => changeTrack(1);
 
-    function toggleSimpleMenu(id) { document.getElementById('price-grid').classList.remove('show-grid'); document.getElementById(id).classList.toggle('show-list'); }
-    function togglePriceGrid() { document.getElementById('lista-xat').classList.remove('show-list'); document.getElementById('price-grid').classList.toggle('show-grid'); }
-
- function entrarNoPerfil() { 
-        // 1. Prepara a música imediatamente (Obrigatório para telemóveis)
+    // FUNÇÃO CORRIGIDA PARA ENTRAR (PLAY IMEDIATO PARA CELULAR)
+    function entrarNoPerfil() { 
+        const splash = document.getElementById('splash-screen');
+        
         loadTrack(currentTrack); 
         
-        // 2. Tenta dar o Play no exato momento do clique
         audio.play().then(() => {
             isPlaying = true;
             document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
         }).catch(err => {
-            console.log("O navegador bloqueou o áudio, tentando novamente...");
-            audio.play(); // Segunda tentativa
+            console.log("Play bloqueado, tentando novamente...");
+            audio.play();
         });
 
-        // 3. Parte visual (faz a tela sumir)
-        const splash = document.getElementById('splash-screen');
         splash.style.opacity = "0";
         document.body.style.overflowY = "auto";
         
@@ -327,24 +331,15 @@
             splash.style.display = "none"; 
         }, 600);
     }
-    // 3. Parte visual
-    splash.style.opacity = "0";
-    document.body.style.overflowY = "auto";
-    
-    setTimeout(() => { 
-        splash.style.display = "none"; 
-    }, 600);
-}
 
-        // 3. Inicia a transição visual da Galeria
-        const splash = document.getElementById('splash-screen');
-        splash.style.opacity = "0";
-        document.body.style.overflowY = "auto"; // Libera a rolagem da página
-        
-        // Remove a tela de entrada após a animação de fade
-        setTimeout(() => { 
-            splash.style.display = "none"; 
-        }, 600);
+    function toggleSimpleMenu(id) { 
+        document.getElementById('price-grid').classList.remove('show-grid'); 
+        document.getElementById(id).classList.toggle('show-list'); 
+    }
+
+    function togglePriceGrid() { 
+        document.getElementById('lista-xat').classList.remove('show-list'); 
+        document.getElementById('price-grid').classList.toggle('show-grid'); 
     }
 
     async function darLike() {
@@ -356,15 +351,22 @@
             likeNum.innerText = data.count || data.value;
             likeNum.style.opacity = "1";
             setTimeout(() => likeNum.style.opacity = "0", 3000);
-        } catch (e) { likeNum.innerText = "1"; likeNum.style.opacity = "1"; setTimeout(() => likeNum.style.opacity = "0", 3000); }
+        } catch (e) { 
+            likeNum.innerText = "+1"; 
+            likeNum.style.opacity = "1"; 
+            setTimeout(() => likeNum.style.opacity = "0", 3000); 
+        }
     }
 
     async function carregarContadores() {
         try {
             const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
             const dataV = await resV.json();
-            document.getElementById('count-number').innerText = dataV.count || dataV.value;
-        } catch(e) { document.getElementById('count-number').innerText = "1"; }
+            const countDisplay = document.getElementById('count-number');
+            if(countDisplay) countDisplay.innerText = dataV.count || dataV.value;
+        } catch(e) { 
+            if(document.getElementById('count-number')) document.getElementById('count-number').innerText = "---"; 
+        }
     }
 
     async function checkDiscordStatus() {
@@ -382,26 +384,15 @@
         } catch (e) { text.innerText = "OFFLINE"; }
     }
 
-    function createDrop(e) {
-        if(document.getElementById('splash-screen').style.display === "none") return;
-        const drop = document.createElement('div');
-        drop.style.cssText = `position:absolute; background:rgba(0, 72, 255, 0.4); border-radius:50%; pointer-events:none; left:${e.clientX}px; top:${e.clientY}px;`;
-        document.getElementById('splash-screen').appendChild(drop);
-        drop.animate([{ width: '0px', height: '0px', opacity: 0.8 }, { width: '100px', height: '100px', opacity: 0 }], { duration: 800 });
-        setTimeout(() => drop.remove(), 800);
-    }
-
-    // FUNÇÃO PARA CRIAR METEOROS MELHORADOS E LENTOS
+    // Efeitos Visuais
     function createMeteor() {
         const screen = document.getElementById('splash-screen');
-        if(screen.style.display === "none") return;
+        if(!screen || screen.style.display === "none") return;
         const meteor = document.createElement('div');
         meteor.className = 'meteor';
-        // Começa em posições aleatórias no topo e esquerda
         meteor.style.left = Math.random() * 80 + 10 + "%";
         meteor.style.top = Math.random() * -20 + "%"; 
         screen.appendChild(meteor);
-        // Remove após a animação lenta acabar (5s)
         setTimeout(() => meteor.remove(), 5500);
     }
 
@@ -410,30 +401,31 @@
         carregarContadores();
         checkDiscordStatus();
         setInterval(checkDiscordStatus, 15000);
-        
-        // Intervalo maior entre meteoros (5 a 8 segundos) para não poluir
-        setInterval(createMeteor, Math.random() * 3000 + 5000); 
+        setInterval(createMeteor, 6000); 
         
         const screen = document.getElementById('splash-screen');
         for (let i = 0; i < 60; i++) {
             const star = document.createElement('div');
             star.className = 'star';
-            // ESTRELAS MAIS MAIORES (2px a 5px)
             const size = Math.random() * 3 + 2; 
             star.style.cssText = `
-                width:${size}px; 
-                height:${size}px; 
-                top:${Math.random()*100}%; 
-                left:${Math.random()*100}%; 
-                --duration:${Math.random()*3+3}s; /* Piscar mais lento */
-                --move-duration:${Math.random()*30+20}s; /* Movimento muito lento */
+                width:${size}px; height:${size}px; 
+                top:${Math.random()*100}%; left:${Math.random()*100}%; 
+                --duration:${Math.random()*3+3}s; 
+                --move-duration:${Math.random()*30+20}s;
             `;
             screen.appendChild(star);
         }
     };
+
+    // Bloqueios de Segurança
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) {
+            e.preventDefault();
+        }
+    });
 </script>
-</body>
-</html>
 <!DOCTYPE html>
 <html lang="es">
   <head>
