@@ -269,12 +269,24 @@
     const ID_VISITAS = "galeria_wrs_2026_main"; 
     const ID_LIKES = "galeria_wrs_likes_2026_main"; 
 
-    const playlist = [
-        { url: 'https://www.dropbox.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt&dl=1', name: 'The Sound of Silence' },
-        { url: 'https://www.dropbox.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo&dl=1', name: 'Eminem - You Dont Know' },
-        { url: 'https://www.dropbox.com/scl/fi/dxueil8ofydhnee9lvrk5/Bon-Jovi-livin-on-a-prayer.mp3.mp3?rlkey=06y21a3rhreta1elo2euhcnlr&dl=1', name: 'Bon Jovi - Livin on a Prayer' },
-        { url: 'https://www.dropbox.com/scl/fi/cqqhzkv1ll1p09z7qgylp/Desireless-voyage-voyage.mp3.mp3?rlkey=hscvkehw7n7vvgi2im4rwhom7&dl=1', name: 'Desireless - Voyage Voyage' }
-    ];
+   const playlist = [
+    { 
+        url: 'https://www.dropbox.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt&st=ptwr9qah&dl=1', 
+        name: 'The Sound of Silence' 
+    },
+    { 
+        url: 'https://www.dropbox.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo&st=t8h8w17l&dl=1', 
+        name: 'Eminem - You Dont Know' 
+    },
+    { 
+        url: 'https://www.dropbox.com/scl/fi/dxueil8ofydhnee9lvrk5/Bon-Jovi-livin-on-a-prayer.mp3.mp3?rlkey=06y21a3rhreta1elo2euhcnlr&st=efxmcozo&dl=1', 
+        name: 'Bon Jovi - Livin on a Prayer' 
+    },
+    { 
+        url: 'https://www.dropbox.com/scl/fi/cqqhzkv1ll1p09z7qgylp/Desireless-voyage-voyage.mp3.mp3?rlkey=hscvkehw7n7vvgi2im4rwhom7&st=ubt5jck2&dl=1', 
+        name: 'Desireless - Voyage Voyage' 
+    }
+];
     
     let currentTrack = 0;
     const audio = document.getElementById('audioPlayer');
@@ -282,42 +294,9 @@
     function loadTrack(index) {
         currentTrack = index;
         audio.src = playlist[currentTrack].url;
-        const display = document.getElementById('track-display');
-        if(display) display.innerText = playlist[currentTrack].name;
+        document.getElementById('track-display').innerText = playlist[currentTrack].name;
     }
-
-    // --- FUNÇÃO DE ENTRADA (O SEGREDO PARA TELEMÓVEIS) ---
-    function entrarNoPerfil() { 
-        // 1. CARREGAR E TOCAR IMEDIATAMENTE (O telemóvel exige que seja a primeira ação)
-        loadTrack(0);
-        audio.play().then(() => {
-            document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
-        }).catch(err => {
-            console.log("O navegador exigiu play manual.");
-        });
-
-        // 2. TRANSIÇÃO VISUAL
-        const splash = document.getElementById('splash-screen');
-        splash.style.opacity = "0";
-        document.body.style.overflowY = "auto";
-        setTimeout(() => { splash.style.display = "none"; }, 600);
-
-        // 3. INICIAR APIs
-        carregarContadores();
-        checkDiscordStatus();
-    }
-
-    function controlMusic() {
-        const btn = document.getElementById('music-btn');
-        if (audio.paused) {
-            audio.play();
-            btn.innerHTML = '<i class="fas fa-pause"></i>';
-        } else {
-            audio.pause();
-            btn.innerHTML = '<i class="fas fa-play"></i>';
-        }
-    }
-
+    
     function changeTrack(dir) {
         currentTrack = (currentTrack + dir + playlist.length) % playlist.length;
         loadTrack(currentTrack);
@@ -325,30 +304,46 @@
         document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
     }
 
+    function changeVolume(val) { audio.volume = val; }
+    
+    function controlMusic() {
+        const btn = document.getElementById('music-btn');
+        if (audio.paused) { audio.play(); btn.innerHTML = '<i class="fas fa-pause"></i>'; }
+        else { audio.pause(); btn.innerHTML = '<i class="fas fa-play"></i>'; }
+    }
+
     audio.onended = () => changeTrack(1);
 
-    // --- SISTEMAS DE API (VISITAS, LIKES, DISCORD) ---
-    async function carregarContadores() {
-        try {
-            const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
-            const dataV = await resV.json();
-            const count = document.getElementById('count-number');
-            if(count) count.innerText = dataV.count || dataV.value;
-        } catch(e) { console.log("Erro no contador"); }
+    function toggleSimpleMenu(id) { document.getElementById('price-grid').classList.remove('show-grid'); document.getElementById(id).classList.toggle('show-list'); }
+    function togglePriceGrid() { document.getElementById('lista-xat').classList.remove('show-list'); document.getElementById('price-grid').classList.toggle('show-grid'); }
+
+    function entrarNoPerfil() { 
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = "0";
+        document.body.style.overflowY = "auto";
+        audio.play();
+        document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
+        setTimeout(() => { splash.style.display = "none"; }, 600);
     }
 
     async function darLike() {
         const likeNum = document.getElementById('like-number');
-        if(window.confetti) {
-            confetti({ particleCount: 150, spread: 70, origin: { x: 0.9, y: 0.9 }, colors: ['#0048FF', '#ffffff', '#00ffff'], zIndex: 1000005 });
-        }
+        confetti({ particleCount: 150, spread: 70, origin: { x: 0.9, y: 0.9 }, colors: ['#0048FF', '#ffffff', '#00ffff'], zIndex: 1000005 });
         try {
             const res = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_LIKES}/up`);
             const data = await res.json();
             likeNum.innerText = data.count || data.value;
             likeNum.style.opacity = "1";
             setTimeout(() => likeNum.style.opacity = "0", 3000);
-        } catch (e) { console.log("Erro no like"); }
+        } catch (e) { likeNum.innerText = "1"; likeNum.style.opacity = "1"; setTimeout(() => likeNum.style.opacity = "0", 3000); }
+    }
+
+    async function carregarContadores() {
+        try {
+            const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
+            const dataV = await resV.json();
+            document.getElementById('count-number').innerText = dataV.count || dataV.value;
+        } catch(e) { document.getElementById('count-number').innerText = "1"; }
     }
 
     async function checkDiscordStatus() {
@@ -358,39 +353,66 @@
             const response = await fetch(`https://api.lanyard.rest/v1/users/${SEU_DISCORD_ID}`);
             const data = await response.json();
             const status = data.data.discord_status;
-            if(dot) {
-                dot.className = ''; 
-                if (status === "online") { dot.classList.add('dot-online'); text.innerText = "ONLINE"; }
-                else if (status === "idle") { dot.classList.add('dot-idle'); text.innerText = "AUSENTE"; }
-                else if (status === "dnd") { dot.classList.add('dot-dnd'); text.innerText = "OCUPADO"; }
-                else { text.innerText = "OFFLINE"; }
-            }
-        } catch (e) { if(text) text.innerText = "OFFLINE"; }
+            dot.className = ''; 
+            if (status === "online") { dot.classList.add('dot-online'); text.innerText = "ONLINE"; }
+            else if (status === "idle") { dot.classList.add('dot-idle'); text.innerText = "AUSENTE"; }
+            else if (status === "dnd") { dot.classList.add('dot-dnd'); text.innerText = "OCUPADO"; }
+            else { text.innerText = "OFFLINE"; }
+        } catch (e) { text.innerText = "OFFLINE"; }
     }
 
-    // --- EFEITOS E INICIALIZAÇÃO ---
+    function createDrop(e) {
+        if(document.getElementById('splash-screen').style.display === "none") return;
+        const drop = document.createElement('div');
+        drop.style.cssText = `position:absolute; background:rgba(0, 72, 255, 0.4); border-radius:50%; pointer-events:none; left:${e.clientX}px; top:${e.clientY}px;`;
+        document.getElementById('splash-screen').appendChild(drop);
+        drop.animate([{ width: '0px', height: '0px', opacity: 0.8 }, { width: '100px', height: '100px', opacity: 0 }], { duration: 800 });
+        setTimeout(() => drop.remove(), 800);
+    }
+
+    // FUNÇÃO PARA CRIAR METEOROS MELHORADOS E LENTOS
+    function createMeteor() {
+        const screen = document.getElementById('splash-screen');
+        if(screen.style.display === "none") return;
+        const meteor = document.createElement('div');
+        meteor.className = 'meteor';
+        // Começa em posições aleatórias no topo e esquerda
+        meteor.style.left = Math.random() * 80 + 10 + "%";
+        meteor.style.top = Math.random() * -20 + "%"; 
+        screen.appendChild(meteor);
+        // Remove após a animação lenta acabar (5s)
+        setTimeout(() => meteor.remove(), 5500);
+    }
+
     window.onload = () => {
         loadTrack(0);
+        carregarContadores();
+        checkDiscordStatus();
         setInterval(checkDiscordStatus, 15000);
         
-        // Estrelas
+        // Intervalo maior entre meteoros (5 a 8 segundos) para não poluir
+        setInterval(createMeteor, Math.random() * 3000 + 5000); 
+        
         const screen = document.getElementById('splash-screen');
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 60; i++) {
             const star = document.createElement('div');
             star.className = 'star';
-            star.style.cssText = `top:${Math.random()*100}%; left:${Math.random()*100}%; --duration:${Math.random()*3+2}s;`;
+            // ESTRELAS MAIS MAIORES (2px a 5px)
+            const size = Math.random() * 3 + 2; 
+            star.style.cssText = `
+                width:${size}px; 
+                height:${size}px; 
+                top:${Math.random()*100}%; 
+                left:${Math.random()*100}%; 
+                --duration:${Math.random()*3+3}s; /* Piscar mais lento */
+                --move-duration:${Math.random()*30+20}s; /* Movimento muito lento */
+            `;
             screen.appendChild(star);
         }
     };
-
-    // SEGURANÇA
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', e => {
-        if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) {
-            e.preventDefault();
-        }
-    });
 </script>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="es">
   <head>
