@@ -306,26 +306,27 @@
     function togglePriceGrid() { document.getElementById('lista-xat').classList.remove('show-list'); document.getElementById('price-grid').classList.toggle('show-grid'); }
 
  function entrarNoPerfil() { 
-    const splash = document.getElementById('splash-screen');
-    
-    // 1. Prepara o áudio imediatamente
-    loadTrack(currentTrack);
-    
-    // 2. Executa o Play com uma "promessa" (obrigatório em telemóveis modernos)
-    var promise = audio.play();
-
-    if (promise !== undefined) {
-        promise.then(_ => {
-            // Se tocar, atualiza os botões
+        // 1. Prepara a música imediatamente (Obrigatório para telemóveis)
+        loadTrack(currentTrack); 
+        
+        // 2. Tenta dar o Play no exato momento do clique
+        audio.play().then(() => {
             isPlaying = true;
             document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
-        }).catch(error => {
-            // Se o telemóvel bloquear, tentamos de novo sem o loadTrack
-            console.log("Tentativa 2...");
-            audio.play();
+        }).catch(err => {
+            console.log("O navegador bloqueou o áudio, tentando novamente...");
+            audio.play(); // Segunda tentativa
         });
-    }
 
+        // 3. Parte visual (faz a tela sumir)
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = "0";
+        document.body.style.overflowY = "auto";
+        
+        setTimeout(() => { 
+            splash.style.display = "none"; 
+        }, 600);
+    }
     // 3. Parte visual
     splash.style.opacity = "0";
     document.body.style.overflowY = "auto";
