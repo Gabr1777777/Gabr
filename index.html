@@ -265,7 +265,7 @@
 </div>
 
 <script>
-    // --- CONFIGURAÇÕES ---
+    // --- 1. CONFIGURAÇÕES E PLAYLIST ---
     const SEU_DISCORD_ID = "454632435054018560";
     const ID_VISITAS = "galeria_wrs_2026_main"; 
     const ID_LIKES = "galeria_wrs_likes_2026_main"; 
@@ -286,21 +286,22 @@
         audio.src = playlist[currentTrack].url;
         const display = document.getElementById('track-display');
         if(display) display.innerText = playlist[currentTrack].name;
+        audio.load(); // Força o navegador a preparar o arquivo
     }
 
-    // --- FUNÇÃO ENTRAR (CORRIGIDA PARA CELULAR) ---
+    // --- 2. FUNÇÃO ENTRAR (O SEGREDO DO SOM) ---
     function entrarNoPerfil() { 
         const splash = document.getElementById('splash-screen');
         
-        // No celular, o play() precisa ser a PRIMEIRA coisa no clique
+        // No momento do clique, damos o comando de áudio ANTES de tudo
         audio.play().then(() => {
             document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
-        }).catch(() => {
-            // Se o link ainda não carregou, tentamos de novo em 100ms
-            setTimeout(() => audio.play(), 100);
+        }).catch(err => {
+            // Se falhar (comum no Safari/iPhone), tentamos de novo imediatamente
+            audio.play();
         });
 
-        // Inicia o resto das funções
+        // Inicia funções de dados
         carregarContadores();
         checkDiscordStatus();
 
@@ -310,22 +311,29 @@
         setTimeout(() => { splash.style.display = "none"; }, 600);
     }
 
+    // --- 3. BOTÕES DO PLAYER ---
     function controlMusic() {
         const btn = document.getElementById('music-btn');
-        if (audio.paused) { audio.play(); btn.innerHTML = '<i class="fas fa-pause"></i>'; }
-        else { audio.pause(); btn.innerHTML = '<i class="fas fa-play"></i>'; }
+        if (audio.paused) { 
+            audio.play(); 
+            btn.innerHTML = '<i class="fas fa-pause"></i>'; 
+        } else { 
+            audio.pause(); 
+            btn.innerHTML = '<i class="fas fa-play"></i>'; 
+        }
     }
 
     function changeTrack(dir) {
         currentTrack = (currentTrack + dir + playlist.length) % playlist.length;
         loadTrack(currentTrack);
-        audio.play();
+        // Pequeno atraso para o Dropbox responder no telemóvel
+        setTimeout(() => { audio.play(); }, 150);
         document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
     }
 
     audio.onended = () => changeTrack(1);
 
-    // --- SISTEMAS RESTAURADOS (VISITAS, LIKES, ONLINE) ---
+    // --- 4. FUNÇÕES DE SISTEMA (VISITAS, LIKES, DISCORD) ---
     async function carregarContadores() {
         try {
             const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
@@ -366,12 +374,11 @@
         } catch (e) { if(text) text.innerText = "OFFLINE"; }
     }
 
-    // --- ESTRELAS E BLOQUEIOS ---
+    // --- 5. EFEITOS E BLOQUEIOS ---
     window.onload = () => {
-        loadTrack(0); // Deixa a música pronta antes de entrar
-        checkDiscordStatus();
-        setInterval(checkDiscordStatus, 15000);
+        loadTrack(0); // Prepara a primeira música silenciosamente
         
+        // Gerar Estrelas no Splash
         const screen = document.getElementById('splash-screen');
         for (let i = 0; i < 50; i++) {
             const star = document.createElement('div');
@@ -379,6 +386,8 @@
             star.style.cssText = `top:${Math.random()*100}%; left:${Math.random()*100}%; --duration:${Math.random()*3+2}s;`;
             screen.appendChild(star);
         }
+        
+        setInterval(checkDiscordStatus, 15000);
     };
 
     document.addEventListener('contextmenu', e => e.preventDefault());
