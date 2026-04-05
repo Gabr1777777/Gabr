@@ -278,7 +278,9 @@
     
     let currentTrack = 0;
     let isPlaying = false;
-    const audio = new Audio(); // Criado de forma global para melhor controle
+    
+    // Pega o elemento de áudio do seu HTML (id="audioPlayer")
+    const audio = document.getElementById('audioPlayer');
 
     function loadTrack(index) {
         currentTrack = index;
@@ -290,9 +292,10 @@
     function changeTrack(dir) {
         currentTrack = (currentTrack + dir + playlist.length) % playlist.length;
         loadTrack(currentTrack);
-        audio.play();
-        isPlaying = true;
-        document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
+        audio.play().then(() => {
+            isPlaying = true;
+            document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
+        });
     }
 
     function controlMusic() {
@@ -310,26 +313,24 @@
 
     audio.onended = () => changeTrack(1);
 
-    // FUNÇÃO CORRIGIDA PARA ENTRAR (PLAY IMEDIATO PARA CELULAR)
+    // CORREÇÃO DEFINITIVA PARA CELULAR
     function entrarNoPerfil() { 
         const splash = document.getElementById('splash-screen');
         
+        // No celular, o play deve ser imediato ao toque
         loadTrack(currentTrack); 
-        
         audio.play().then(() => {
             isPlaying = true;
             document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
         }).catch(err => {
-            console.log("Play bloqueado, tentando novamente...");
+            console.log("Acesso ao áudio bloqueado. Tentando novamente...");
             audio.play();
         });
 
+        // Só depois cuidamos da parte visual
         splash.style.opacity = "0";
         document.body.style.overflowY = "auto";
-        
-        setTimeout(() => { 
-            splash.style.display = "none"; 
-        }, 600);
+        setTimeout(() => { splash.style.display = "none"; }, 600);
     }
 
     function toggleSimpleMenu(id) { 
@@ -365,7 +366,7 @@
             const countDisplay = document.getElementById('count-number');
             if(countDisplay) countDisplay.innerText = dataV.count || dataV.value;
         } catch(e) { 
-            if(document.getElementById('count-number')) document.getElementById('count-number').innerText = "---"; 
+            console.log("Erro no contador");
         }
     }
 
@@ -384,7 +385,6 @@
         } catch (e) { text.innerText = "OFFLINE"; }
     }
 
-    // Efeitos Visuais
     function createMeteor() {
         const screen = document.getElementById('splash-screen');
         if(!screen || screen.style.display === "none") return;
@@ -418,9 +418,8 @@
         }
     };
 
-    // Bloqueios de Segurança
     document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', e => {
         if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) {
             e.preventDefault();
         }
