@@ -277,9 +277,6 @@
     ];
     
     let currentTrack = 0;
-    let isPlaying = false;
-    
-    // Pega o elemento de áudio do seu HTML (id="audioPlayer")
     const audio = document.getElementById('audioPlayer');
 
     function loadTrack(index) {
@@ -288,59 +285,52 @@
         const display = document.getElementById('track-display');
         if(display) display.innerText = playlist[currentTrack].name;
     }
-    
-    function changeTrack(dir) {
-        currentTrack = (currentTrack + dir + playlist.length) % playlist.length;
-        loadTrack(currentTrack);
-        audio.play().then(() => {
-            isPlaying = true;
-            document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
-        });
-    }
 
-    function controlMusic() {
-        const btn = document.getElementById('music-btn');
-        if (audio.paused) { 
-            audio.play(); 
-            btn.innerHTML = '<i class="fas fa-pause"></i>'; 
-            isPlaying = true;
-        } else { 
-            audio.pause(); 
-            btn.innerHTML = '<i class="fas fa-play"></i>'; 
-            isPlaying = false;
-        }
-    }
-
-    audio.onended = () => changeTrack(1);
-
-    // CORREÇÃO DEFINITIVA PARA CELULAR
+    // FUNÇÃO PARA O BOTÃO "ENTRE"
     function entrarNoPerfil() { 
         const splash = document.getElementById('splash-screen');
         
-        // No celular, o play deve ser imediato ao toque
-        loadTrack(currentTrack); 
+        loadTrack(0);
+        // Tenta o play imediato
         audio.play().then(() => {
-            isPlaying = true;
             document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
-        }).catch(err => {
-            console.log("Acesso ao áudio bloqueado. Tentando novamente...");
-            audio.play();
-        });
+        }).catch(err => console.log("Aguardando play manual"));
 
-        // Só depois cuidamos da parte visual
         splash.style.opacity = "0";
         document.body.style.overflowY = "auto";
         setTimeout(() => { splash.style.display = "none"; }, 600);
     }
 
-    function toggleSimpleMenu(id) { 
-        document.getElementById('price-grid').classList.remove('show-grid'); 
-        document.getElementById(id).classList.toggle('show-list'); 
+    // FUNÇÃO PARA O BOTÃO PLAY/PAUSE (CORRIGIDA)
+    function controlMusic() {
+        const btn = document.getElementById('music-btn');
+        if (audio.paused) {
+            // No celular, isso PRECISA estar dentro de um evento de clique direto
+            audio.play().then(() => {
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+            });
+        } else {
+            audio.pause();
+            btn.innerHTML = '<i class="fas fa-play"></i>';
+        }
     }
 
-    function togglePriceGrid() { 
-        document.getElementById('lista-xat').classList.remove('show-list'); 
-        document.getElementById('price-grid').classList.toggle('show-grid'); 
+    function changeTrack(dir) {
+        currentTrack = (currentTrack + dir + playlist.length) % playlist.length;
+        loadTrack(currentTrack);
+        audio.play();
+        document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
+    }
+
+    audio.onended = () => changeTrack(1);
+
+    // --- OUTRAS FUNÇÕES (CONTADOR, LIKES, DISCORD) ---
+    async function carregarContadores() {
+        try {
+            const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
+            const dataV = await resV.json();
+            document.getElementById('count-number').innerText = dataV.count || dataV.value;
+        } catch(e) { console.log("Erro contador"); }
     }
 
     async function darLike() {
@@ -352,22 +342,7 @@
             likeNum.innerText = data.count || data.value;
             likeNum.style.opacity = "1";
             setTimeout(() => likeNum.style.opacity = "0", 3000);
-        } catch (e) { 
-            likeNum.innerText = "+1"; 
-            likeNum.style.opacity = "1"; 
-            setTimeout(() => likeNum.style.opacity = "0", 3000); 
-        }
-    }
-
-    async function carregarContadores() {
-        try {
-            const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
-            const dataV = await resV.json();
-            const countDisplay = document.getElementById('count-number');
-            if(countDisplay) countDisplay.innerText = dataV.count || dataV.value;
-        } catch(e) { 
-            console.log("Erro no contador");
-        }
+        } catch (e) { console.log("Erro like"); }
     }
 
     async function checkDiscordStatus() {
@@ -385,39 +360,14 @@
         } catch (e) { text.innerText = "OFFLINE"; }
     }
 
-    function createMeteor() {
-        const screen = document.getElementById('splash-screen');
-        if(!screen || screen.style.display === "none") return;
-        const meteor = document.createElement('div');
-        meteor.className = 'meteor';
-        meteor.style.left = Math.random() * 80 + 10 + "%";
-        meteor.style.top = Math.random() * -20 + "%"; 
-        screen.appendChild(meteor);
-        setTimeout(() => meteor.remove(), 5500);
-    }
-
     window.onload = () => {
         loadTrack(0);
         carregarContadores();
         checkDiscordStatus();
         setInterval(checkDiscordStatus, 15000);
-        setInterval(createMeteor, 6000); 
-        
-        const screen = document.getElementById('splash-screen');
-        for (let i = 0; i < 60; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 3 + 2; 
-            star.style.cssText = `
-                width:${size}px; height:${size}px; 
-                top:${Math.random()*100}%; left:${Math.random()*100}%; 
-                --duration:${Math.random()*3+3}s; 
-                --move-duration:${Math.random()*30+20}s;
-            `;
-            screen.appendChild(star);
-        }
     };
 
+    // Bloqueios de segurança
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
         if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) {
