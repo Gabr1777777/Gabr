@@ -270,22 +270,10 @@
     const ID_LIKES = "galeria_wrs_likes_2026_main"; 
 
    const playlist = [
-    { 
-        url: 'https://www.dropbox.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt&st=ptwr9qah&dl=1', 
-        name: 'The Sound of Silence' 
-    },
-    { 
-        url: 'https://www.dropbox.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo&st=t8h8w17l&dl=1', 
-        name: 'Eminem - You Dont Know' 
-    },
-    { 
-        url: 'https://www.dropbox.com/scl/fi/dxueil8ofydhnee9lvrk5/Bon-Jovi-livin-on-a-prayer.mp3.mp3?rlkey=06y21a3rhreta1elo2euhcnlr&st=efxmcozo&dl=1', 
-        name: 'Bon Jovi - Livin on a Prayer' 
-    },
-    { 
-        url: 'https://www.dropbox.com/scl/fi/cqqhzkv1ll1p09z7qgylp/Desireless-voyage-voyage.mp3.mp3?rlkey=hscvkehw7n7vvgi2im4rwhom7&st=ubt5jck2&dl=1', 
-        name: 'Desireless - Voyage Voyage' 
-    }
+    { url: 'https://www.dropbox.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt&dl=1', name: 'The Sound of Silence' },
+    { url: 'https://www.dropbox.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo&dl=1', name: 'Eminem - You Dont Know' },
+    { url: 'https://www.dropbox.com/scl/fi/dxueil8ofydhnee9lvrk5/Bon-Jovi-livin-on-a-prayer.mp3.mp3?rlkey=06y21a3rhreta1elo2euhcnlr&dl=1', name: 'Bon Jovi - Livin on a Prayer' },
+    { url: 'https://www.dropbox.com/scl/fi/cqqhzkv1ll1p09z7qgylp/Desireless-voyage-voyage.mp3.mp3?rlkey=hscvkehw7n7vvgi2im4rwhom7&dl=1', name: 'Desireless - Voyage Voyage' }
 ];
     
     let currentTrack = 0;
@@ -318,23 +306,34 @@
     function togglePriceGrid() { document.getElementById('lista-xat').classList.remove('show-list'); document.getElementById('price-grid').classList.toggle('show-grid'); }
 
  function entrarNoPerfil() { 
-        // 1. Forçar o carregamento da primeira música da playlist
-        loadTrack(currentTrack); 
+    const splash = document.getElementById('splash-screen');
+    
+    // 1. Prepara o áudio imediatamente
+    loadTrack(currentTrack);
+    
+    // 2. Executa o Play com uma "promessa" (obrigatório em telemóveis modernos)
+    var promise = audio.play();
 
-        // 2. Tentar dar o Play IMEDIATAMENTE (O segredo para telemóveis)
-        var playPromise = audio.play();
+    if (promise !== undefined) {
+        promise.then(_ => {
+            // Se tocar, atualiza os botões
+            isPlaying = true;
+            document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
+        }).catch(error => {
+            // Se o telemóvel bloquear, tentamos de novo sem o loadTrack
+            console.log("Tentativa 2...");
+            audio.play();
+        });
+    }
 
-        if (playPromise !== undefined) {
-            playPromise.then(_ => {
-                // Se o navegador aceitou o play, atualiza os ícones e o estado
-                isPlaying = true;
-                document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
-            }).catch(error => {
-                // Se o navegador ainda bloquear (ex: modo de poupança), o erro aparece aqui
-                console.log("Autoplay bloqueado pelo navegador.");
-                isPlaying = false;
-            });
-        }
+    // 3. Parte visual
+    splash.style.opacity = "0";
+    document.body.style.overflowY = "auto";
+    
+    setTimeout(() => { 
+        splash.style.display = "none"; 
+    }, 600);
+}
 
         // 3. Inicia a transição visual da Galeria
         const splash = document.getElementById('splash-screen');
