@@ -277,7 +277,6 @@
     ];
     
     let currentTrack = 0;
-    // Puxa o elemento que você adicionou no passo 1
     const audio = document.getElementById('audioPlayer');
 
     function loadTrack(index) {
@@ -285,29 +284,25 @@
         audio.src = playlist[currentTrack].url;
         const display = document.getElementById('track-display');
         if(display) display.innerText = playlist[currentTrack].name;
-        audio.load(); // Força o carregamento do novo link
     }
 
-    // FUNÇÃO DO BOTÃO "ENTRE" - Única chance de ativar o áudio no celular
+    // --- FUNÇÃO DE ENTRADA (O SEGREDO PARA TELEMÓVEIS) ---
     function entrarNoPerfil() { 
-        const splash = document.getElementById('splash-screen');
-        
-        // 1. Carrega e tenta tocar imediatamente
+        // 1. CARREGAR E TOCAR IMEDIATAMENTE (O telemóvel exige que seja a primeira ação)
         loadTrack(0);
-        
-        // O segredo: o play() precisa ser a primeira reação ao toque
         audio.play().then(() => {
             document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
         }).catch(err => {
-            console.log("Play automático barrado, o usuário terá que dar play manual.");
+            console.log("O navegador exigiu play manual.");
         });
 
-        // 2. Transição visual
+        // 2. TRANSIÇÃO VISUAL
+        const splash = document.getElementById('splash-screen');
         splash.style.opacity = "0";
         document.body.style.overflowY = "auto";
         setTimeout(() => { splash.style.display = "none"; }, 600);
-        
-        // Inicia os contadores
+
+        // 3. INICIAR APIs
         carregarContadores();
         checkDiscordStatus();
     }
@@ -332,19 +327,19 @@
 
     audio.onended = () => changeTrack(1);
 
-    // --- SISTEMAS DE API ---
+    // --- SISTEMAS DE API (VISITAS, LIKES, DISCORD) ---
     async function carregarContadores() {
         try {
             const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
             const dataV = await resV.json();
             const count = document.getElementById('count-number');
             if(count) count.innerText = dataV.count || dataV.value;
-        } catch(e) { console.log("Erro contador"); }
+        } catch(e) { console.log("Erro no contador"); }
     }
 
     async function darLike() {
         const likeNum = document.getElementById('like-number');
-        if(typeof confetti === 'function') {
+        if(window.confetti) {
             confetti({ particleCount: 150, spread: 70, origin: { x: 0.9, y: 0.9 }, colors: ['#0048FF', '#ffffff', '#00ffff'], zIndex: 1000005 });
         }
         try {
@@ -353,7 +348,7 @@
             likeNum.innerText = data.count || data.value;
             likeNum.style.opacity = "1";
             setTimeout(() => likeNum.style.opacity = "0", 3000);
-        } catch (e) { console.log("Erro like"); }
+        } catch (e) { console.log("Erro no like"); }
     }
 
     async function checkDiscordStatus() {
@@ -373,13 +368,22 @@
         } catch (e) { if(text) text.innerText = "OFFLINE"; }
     }
 
-    // Inicialização
+    // --- EFEITOS E INICIALIZAÇÃO ---
     window.onload = () => {
         loadTrack(0);
         setInterval(checkDiscordStatus, 15000);
+        
+        // Estrelas
+        const screen = document.getElementById('splash-screen');
+        for (let i = 0; i < 40; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.cssText = `top:${Math.random()*100}%; left:${Math.random()*100}%; --duration:${Math.random()*3+2}s;`;
+            screen.appendChild(star);
+        }
     };
 
-    // Segurança
+    // SEGURANÇA
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', e => {
         if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) {
