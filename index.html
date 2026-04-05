@@ -318,20 +318,30 @@
     function togglePriceGrid() { document.getElementById('lista-xat').classList.remove('show-list'); document.getElementById('price-grid').classList.toggle('show-grid'); }
 
  function entrarNoPerfil() { 
-        // 1. Toca a música IMEDIATAMENTE (O celular exige o play no primeiro toque)
-        loadTrack(currentTrack); // Garante que a trilha correta está carregada
-        audio.play().then(() => {
-            document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
-            isPlaying = true;
-        }).catch(err => {
-            console.log("O navegador bloqueou o áudio: ", err);
-        });
+        // 1. Forçar o carregamento da primeira música da playlist
+        loadTrack(currentTrack); 
 
-        // 2. Depois faz a transição visual
+        // 2. Tentar dar o Play IMEDIATAMENTE (O segredo para telemóveis)
+        var playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // Se o navegador aceitou o play, atualiza os ícones e o estado
+                isPlaying = true;
+                document.getElementById('music-btn').innerHTML = '<i class="fas fa-pause"></i>';
+            }).catch(error => {
+                // Se o navegador ainda bloquear (ex: modo de poupança), o erro aparece aqui
+                console.log("Autoplay bloqueado pelo navegador.");
+                isPlaying = false;
+            });
+        }
+
+        // 3. Inicia a transição visual da Galeria
         const splash = document.getElementById('splash-screen');
         splash.style.opacity = "0";
-        document.body.style.overflowY = "auto";
+        document.body.style.overflowY = "auto"; // Libera a rolagem da página
         
+        // Remove a tela de entrada após a animação de fade
         setTimeout(() => { 
             splash.style.display = "none"; 
         }, 600);
