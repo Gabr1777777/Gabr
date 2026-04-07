@@ -1,3 +1,26 @@
+<style>
+  /* Mantém sua moldura original, mas garante que seja quadrada para o nome Gabr */
+  .avatar-container {
+    width: 200px !important; 
+    height: 200px !important;
+    border: 5px solid #fff !important; /* Cor branca original */
+    border-radius: 0% !important;    /* Quadrada para não cortar o nome */
+    overflow: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: #000 !important;
+    margin: 20px auto !important;
+  }
+
+  /* ESTE É O AJUSTE PRINCIPAL PARA A GIF APARECER TODA */
+  .avatar {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* Faz o GIF encolher até aparecer inteiro */
+    display: block !important;
+  }
+</style>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
