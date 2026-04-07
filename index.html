@@ -1,23 +1,29 @@
 <style>
-  /* Mantém sua moldura original, mas garante que seja quadrada para o nome Gabr */
-  .avatar-container {
-    width: 200px !important; 
-    height: 200px !important;
-    border: 5px solid #fff !important; /* Cor branca original */
-    border-radius: 0% !important;    /* Quadrada para não cortar o nome */
+  /* Nome exclusivo para não afetar os outros projetos (01, 02, 03...) */
+  .moldura-gabr {
+    width: 180px !important; 
+    height: 180px !important;
+    
+    /* Borda Azul WRS e Fina */
+    border: 2px solid #0048FF !important; 
+    
+    /* Quadrada para o nome Gabr aparecer */
+    border-radius: 0% !important; 
+    
     overflow: hidden !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    background-color: #000 !important;
     margin: 20px auto !important;
+    background-color: #000 !important;
+    box-shadow: 0 0 15px rgba(0, 72, 255, 0.3) !important;
   }
 
-  /* ESTE É O AJUSTE PRINCIPAL PARA A GIF APARECER TODA */
-  .avatar {
+  .img-gabr {
     width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important; /* Faz o GIF encolher até aparecer inteiro */
+    /* Faz o GIF aparecer INTEIRO com o nome */
+    object-fit: contain !important; 
     display: block !important;
   }
 </style>
