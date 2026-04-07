@@ -1,3 +1,32 @@
+<style>
+  .avatar-container {
+    /* Moldura quadrada e maior para destacar o GIF */
+    width: 200px; 
+    height: 200px;
+    
+    /* Borda branca e quadrada (0%) para não comer as pontas do nome Gabr */
+    border: 5px solid #fff; 
+    border-radius: 0%; 
+    
+    /* Centralização perfeita */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    background-color: #000; /* Fundo preto para o GIF brilhar */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+
+  .avatar {
+    /* AJUSTE PARA APARECER TUDO: */
+    width: 100%;
+    height: 100%;
+    /* O 'contain' garante que a imagem encolha até aparecer INTEIRA na moldura */
+    object-fit: contain; 
+    display: block;
+  }
+</style>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -718,17 +747,6 @@
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
-	<!DOCTYPE html>
-<html>
-<head>
-    <style>
-      .avatar-container { ... }
-      .avatar { ... }
-    </style>
-</head>
-<body>
-    </body>
-</html>
   <body>
     <div class="profile-container">
       <!-- Elementos comunes en la parte superior -->
