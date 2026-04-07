@@ -1,30 +1,25 @@
 <style>
+  /* O "!important" força a mudança mesmo se houver código antigo embaixo */
   .avatar-container {
-    /* Moldura quadrada e maior para destacar o GIF */
-    width: 200px; 
-    height: 200px;
-    
-    /* Borda branca e quadrada (0%) para não comer as pontas do nome Gabr */
-    border: 5px solid #fff; 
-    border-radius: 0%; 
-    
-    /* Centralização perfeita */
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-    background-color: #000; /* Fundo preto para o GIF brilhar */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    width: 200px !important; 
+    height: 200px !important;
+    border: 5px solid #fff !important; 
+    border-radius: 0% !important; 
+    overflow: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 20px auto !important;
+    background-color: #000 !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
   }
 
   .avatar {
-    /* AJUSTE PARA APARECER TUDO: */
-    width: 100%;
-    height: 100%;
-    /* O 'contain' garante que a imagem encolha até aparecer INTEIRA na moldura */
-    object-fit: contain; 
-    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    /* Isso garante que o GIF GABR apareça inteiro sem cortes */
+    object-fit: contain !important; 
+    display: block !important;
   }
 </style>
 <!DOCTYPE html>
