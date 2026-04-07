@@ -715,61 +715,118 @@
             h1.main-title { font-size: 2em; }
             .info-card { flex: 1 1 100%; }
         }
-    </style>
+ </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  </head>
-  <body>
-    <div class="profile-container">
-      <!-- Elementos comunes en la parte superior -->
-      <div class="profile-cover"></div>
-` <div class="avatar-container">`
-`  <img src="https://i.imgur.com/hqDqtpe.gif" alt="Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/150'">`
-` </div>`
-      <div class="profile-details">
-        <h1 class="main-title">
-          ✎  𝗚𝗮𝗯𝗿  ✎
-        </h1>
+    <style>
+      /* --- Estilos para o Avatar (Moldura e GIF) --- */
+      
+      .avatar-container {
+        /* Define o tamanho da moldura visível */
+        width: 150px; 
+        height: 150px;
+        border: 5px solid #fff; /* Cor e espessura da moldura */
+        border-radius: 50%; /* Faz a moldura redonda, se desejar. Remova para quadrada. */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Adiciona uma sombra para destacar */
+        
+        overflow: hidden; /* IMPORTANTE: Garante que o GIF fique DENTRO da moldura */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto; /* Centraliza o container na página */
+        background-color: #eee; /* Cor de fundo opcional dentro da moldura */
+      }
+
+      .avatar {
+        /* OPÇÃO 2: DIMINUIR O GIF PARA CABER */
+        /* Esta regra faz com que o GIF preencha o container (a moldura)
+           sem distorcer e sem sobrar espaço. */
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ajusta o GIF para preencher o círculo/quadrado */
+        
+        /* Se você preferir que o GIF apareça inteiro, mesmo que fique menor
+           dentro da moldura, use 'contain' em vez de 'cover'. */
+        /* object-fit: contain; */
+      }
+    <style>
+  /* Ajuste da moldura e do GIF */
+  .avatar-container {
+    width: 150px;           /* Tamanho da moldura */
+    height: 150px;
+    border: 8px solid #fff;  /* Moldura branca */
+    border-radius: 50%;      /* Deixa redonda */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f0f0f0;     
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .avatar {
+    width: 100%;
+    height: 100%;
+    /* O padding abaixo faz o GIF encolher para caber dentro da moldura */
+    padding: 12px; 
+    object-fit: contain; 
+    box-sizing: border-box;
+  }
+</style>
+
+<div class="profile-container">
+  <div class="profile-cover"></div>
+  <div class="avatar-container">
+    <img src="https://i.imgur.com/hqDqtpe.gif" alt="Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/150'">
+  </div>
+  <div class="profile-details">
+    <h1 class="main-title">
+      ✎  𝗚𝗮𝗯𝗿  ✎
+    </h1>
+    <p>
+      ID: /f 1777777 Me Adicione 
+    </p>
+    <p>
+      Para pedidos ou dúvidas 
+    </p>
+    <div class="profile-buttons">
+      <button class="btn-style" onclick="toggleView('gifs')">Gifs</button> <a class="btn-style" href="https://imgur.com/a/RpqRnbi" target="_blank">Pcback Gif </a> <a class="btn-style" href="https://imgur.com/a/2z9TwHg" target="_blank">Pstyle Gif </a> <a class="btn-style" href="https://imgur.com/a/2w8zYYr" target="_blank">Fundos </a> <a class="btn-style" href="https://imgur.com/a/pcback-est-tico-300-xats-zO4InUd" target="_blank">Pcback Estático </a> <a class="btn-style" href="https://imgur.com/a/pstyle-est-tico-200-xats-hlPGRVR" target="_blank">Pstyle Estático </a>
+    </div>
+  </div><div id="view-profile">
+    <div class="info-cards">
+      <div class="info-card">
+        <h3>
+          Sobre mím
+        </h3>
         <p>
-          ID: /f 1777777 Me Adicione 
+          Vendo Gifs, Pcback, Pstyle e Fundos para XAT, DJ nas horas vagas - 
+          Married Mnna (1013) ❤️
         </p>
+      </div>
+      <div class="info-card">
+        <h3>
+          Dicas
+        </h3>
         <p>
-          Para pedidos ou dúvidas 
+          Escolha um modelo, por exemplo After - 5 ou  Canva - 4, me mande cor, nome e foto, se quiser adicionar alguma frase, me diz a frase que eu coloco
         </p>
-        <div class="profile-buttons">
-          <button class="btn-style" onclick="toggleView('gifs')">Gifs</button> <a class="btn-style" href="https://imgur.com/a/RpqRnbi" target="_blank">Pcback Gif </a> <a class="btn-style" href="https://imgur.com/a/2z9TwHg" target="_blank">Pstyle Gif </a> <a class="btn-style" href="https://imgur.com/a/2w8zYYr" target="_blank">Fundos </a> <a class="btn-style" href="https://imgur.com/a/pcback-est-tico-300-xats-zO4InUd" target="_blank">Pcback Estático </a> <a class="btn-style" href="https://imgur.com/a/pstyle-est-tico-200-xats-hlPGRVR" target="_blank">Pstyle Estático </a>
-        </div>
-      </div><!-- ================= VISTA DE PERFIL ================= -->
-      <div id="view-profile">
-        <div class="info-cards">
-          <div class="info-card">
-            <h3>
-              Sobre mím
-            </h3>
-            <p>
-              Vendo Gifs, Pcback, Pstyle e Fundos para XAT, DJ nas horas vagas - 
-				Married Mnna (1013) ❤️
-            </p>
-          </div>
-          <div class="info-card">
-            <h3>
-              Dicas
-            </h3>
-            <p>
-              Escolha um modelo, por exemplo After - 5 ou  Canva - 4, me mande cor, nome e foto, se quiser adicionar alguma frase, me diz a frase que eu coloco
-            </p>
-          </div>
-          <div class="info-card">
-            <h3>
-              Sell ID 10 Digts - 1k each (Never used)
-            </h3>
-            <p>
-              (SOLD 1553333003), 1553333005, 1553333013, 1553333024, 1553333040, 1553333505, 1553333903, 1553333027 1553333484, 1553333494, 1553333579, 1549200800, 1549200900, 1549203020,
-1553350006, 1553342014 1480335366, 1484529437, 1484529434, 1484529671, 1480335587, 1480335597, 1484529675, 1480335580 1484529908, 1553350001, 1553350006, 1553350010, 1553350019, 
-				1553350022, 1553350080, 1553358001 1553358004, 1549200788, 1549200822, 1549200844, 1557799002, 1553366005, 1549200844, 1553347776 
-            </p>
-          </div>
-        </div>
-        <style>
+      </div>
+      <div class="info-card">
+        <h3>
+          Sell ID 10 Digts - 1k each (Never used)
+        </h3>
+        <p>
+          (SOLD 1553333003), 1553333005, 1553333013, 1553333024, 1553333040, 1553333505, 1553333903, 1553333027 1553333484, 1553333494, 1553333579, 1549200800, 1549200900, 1549203020,
+          1553350006, 1553342014 1480335366, 1484529437, 1484529434, 1484529671, 1480335587, 1480335597, 1484529675, 1480335580 1484529908, 1553350001, 1553350006, 1553350010, 1553350019, 
+          1553350022, 1553350080, 1553358001 1553358004, 1549200788, 1549200822, 1549200844, 1557799002, 1553366005, 1549200844, 1553347776 
+        </p>
+      </div>
+    </div>
+  </div>
+<style>
+  /* Espaço para estilos adicionais no final, se necessário */
+</style>
     /* Estilos do Carrossel */
     .carrossel-wrs-container {
         width: 100%; max-width: 500px; height: 320px;
