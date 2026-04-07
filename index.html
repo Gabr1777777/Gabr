@@ -715,49 +715,125 @@
             h1.main-title { font-size: 2em; }
             .info-card { flex: 1 1 100%; }
         }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  </head>
-  <body>
-    <div class="profile-container">
-      <!-- Elementos comunes en la parte superior -->
-      <div class="profile-cover"></div>
-      <div class="avatar-container">
-  <img src="https://i.imgur.com/hqDqtpe.gif" alt="Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/150'">
-</div>
-      <div class="profile-details">
-        <h1 class="main-title">
-          ✎  𝗚𝗮𝗯𝗿  ✎
-        </h1>
-        <p>
-          ID: /f 1777777 Me Adicione 
-        </p>
-        <p>
-          Para pedidos ou dúvidas 
-        </p>
+   <style>
+    /* 1. CONFIGURAÇÃO DA MOLDURA QUADRADA E GIF */
+    .avatar-container {
+        width: 190px;           /* Moldura um pouco maior para dar destaque */
+        height: 190px;
+        border: 6px solid #fff;  /* Borda branca */
+        border-radius: 0px;      /* TOTALMENTE QUADRADA para o nome Gabr aparecer */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px auto;
+        background-color: #000;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .avatar {
+        width: 100%;
+        height: 100%;
+        /* O 'contain' garante que o GIF e o nome Gabr apareçam inteiros sem cortes */
+        object-fit: contain; 
+        display: block;
+    }
+
+    /* 2. ESTILOS DO PERFIL E BOTÕES */
+    .profile-container {
+        text-align: center;
+        font-family: sans-serif;
+    }
+
+    .main-title {
+        font-size: 24px;
+        margin: 10px 0;
+        color: #fff;
+    }
+
+    .btn-style {
+        display: inline-block;
+        padding: 8px 15px;
+        margin: 5px;
+        background: #0048FF;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 13px;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* 3. ESTILOS DO CARROSSEL E EFEITOS WRS */
+    .carrossel-wrs-container {
+        width: 100%; max-width: 500px; height: 320px;
+        position: relative; overflow: hidden; background: #000;
+        border: 2px solid #0048FF; border-radius: 5px;
+        margin: 10px auto;
+    }
+
+    .grid-bg {
+        position: absolute; width: 100%; height: 100%;
+        background-image: linear-gradient(rgba(0, 72, 255, 0.1) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(0, 72, 255, 0.1) 1px, transparent 1px);
+        background-size: 25px 25px;
+    }
+
+    .scan-line {
+        position: absolute; width: 100%; height: 4px;
+        background: #0048FF; box-shadow: 0 0 15px #0048FF;
+        opacity: 0.4; animation: moveScanGabr 5s linear infinite;
+    }
+
+    @keyframes moveScanGabr { 0% { top: -5%; } 100% { top: 105%; } }
+
+    .info-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .info-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        width: 250px;
+        color: #fff;
+        border: 1px solid #333;
+    }
+</style>
+
+<div class="profile-container">
+    <div class="profile-cover"></div>
+    
+    <div class="avatar-container">
+        <img src="https://i.imgur.com/hqDqtpe.gif" alt="Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/190'">
+    </div>
+
+    <div class="profile-details">
+        <h1 class="main-title">✎ 𝗚𝗮𝗯𝗿 ✎</h1>
+        <p style="color: #ccc;">ID: /f 1777777 Me Adicione</p>
+        
         <div class="profile-buttons">
-          <button class="btn-style" onclick="toggleView('gifs')">Gifs</button> <a class="btn-style" href="https://imgur.com/a/RpqRnbi" target="_blank">Pcback Gif </a> <a class="btn-style" href="https://imgur.com/a/2z9TwHg" target="_blank">Pstyle Gif </a> <a class="btn-style" href="https://imgur.com/a/2w8zYYr" target="_blank">Fundos </a> <a class="btn-style" href="https://imgur.com/a/pcback-est-tico-300-xats-zO4InUd" target="_blank">Pcback Estático </a> <a class="btn-style" href="https://imgur.com/a/pstyle-est-tico-200-xats-hlPGRVR" target="_blank">Pstyle Estático </a>
+            <button class="btn-style">Gifs</button> 
+            <a class="btn-style" href="https://imgur.com/a/RpqRnbi" target="_blank">Pcback Gif</a> 
+            <a class="btn-style" href="https://imgur.com/a/2z9TwHg" target="_blank">Pstyle Gif</a> 
+            <a class="btn-style" href="https://imgur.com/a/2w8zYYr" target="_blank">Fundos</a>
         </div>
-      </div><!-- ================= VISTA DE PERFIL ================= -->
-      <div id="view-profile">
+    </div>
+
+    <div id="view-profile">
         <div class="info-cards">
-          <div class="info-card">
-            <h3>
-              Sobre mím
-            </h3>
-            <p>
-              Vendo Gifs, Pcback, Pstyle e Fundos para XAT, DJ nas horas vagas - 
-				Married Mnna (1013) ❤️
-            </p>
-          </div>
-          <div class="info-card">
-            <h3>
-              Dicas
-            </h3>
-            <p>
-              Escolha um modelo, por exemplo After - 5 ou  Canva - 4, me mande cor, nome e foto, se quiser adicionar alguma frase, me diz a frase que eu coloco
-            </p>
-          </div>
+            <div class="info-card">
+                <h3 style="color: #0048FF;">Sobre mim</h3>
+                <p>Vendo Gifs, Pcback, Pstyle e Fundos para XAT - Married Mnna (1013) ❤️</p>
+            </div>
+            <div class="info-card">
+                <h3 style="color: #0048FF;">Dicas</h3>
+                <p>Escolha o modelo, mande cor, nome e foto. Se quiser frase, eu coloco!</p>
+            </div>
           <div class="info-card">
             <h3>
               Sell ID 10 Digts - 1k each (Never used)
