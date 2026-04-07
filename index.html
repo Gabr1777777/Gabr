@@ -1,33 +1,33 @@
 <style>
-    /* BLINDAGEM TOTAL: Este código só afeta o elemento com o ID específico */
-    #perfil-gabr-exclusivo {
-        width: 180px !important; 
-        height: 180px !important;
-        /* Borda azul WRS fina como você pediu */
-        border: 2px solid #0048FF !important; 
-        border-radius: 0% !important; /* Quadrada para o nome aparecer */
-        overflow: hidden !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        background-color: #000 !important;
-        margin: 0 auto !important; /* Sem espaço extra no topo */
-        padding: 0 !important;
-        box-shadow: 0 0 15px rgba(0, 72, 255, 0.4) !important;
-    }
+  /* BLINDAGEM TOTAL: Este nome 'caixa-gabr-unica' não existe no seu código original, 
+     por isso ele NÃO VAI mexer nos projetos 01, 02, 03 e 04 */
+  
+  .caixa-gabr-unica {
+    width: 180px !important; 
+    height: 180px !important;
+    border: 2px solid #0048FF !important; /* Borda azul fina */
+    border-radius: 0% !important;        /* Quadrada para o nome aparecer */
+    overflow: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: #000 !important;
+    margin: 0 auto !important;            /* Tira o espaço exagerado do topo */
+    padding: 0 !important;
+    box-shadow: 0 0 15px rgba(0, 72, 255, 0.4) !important;
+  }
 
-    #perfil-gabr-exclusivo img {
-        width: 100% !important;
-        height: 100% !important;
-        /* O 'contain' garante que o nome GABR apareça inteiro sem cortes */
-        object-fit: contain !important; 
-        display: block !important;
-    }
+  .img-gabr-ajustada {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* Mostra o nome GABR inteiro */
+    display: block !important;
+  }
 
-    /* Ajuste para a capa não empurrar o GIF para baixo */
-    .profile-cover {
-        margin-bottom: -40px !important;
-    }
+  /* Ajuste para a capa não empurrar o GIF para baixo */
+  .profile-cover {
+    margin-bottom: -30px !important;
+  }
 </style>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -752,14 +752,15 @@
   <body>
     <div class="profile-container">
       <!-- Elementos comunes en la parte superior -->
-      <div class="profile-cover"></div>
-      <div class="avatar-container">
-  <img src="https://i.imgur.com/hqDqtpe.gif" alt="Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/150'">
-</div>
-      <div class="profile-details">
-        <h1 class="main-title">
-          ✎  𝗚𝗮𝗯𝗿  ✎
-        </h1>
+ <div class="profile-container">
+  <div class="profile-cover"></div>
+  
+  <div class="caixa-gabr-unica">
+    <img src="https://i.imgur.com/hqDqtpe.gif" class="img-gabr-ajustada">
+  </div>
+
+  <div class="profile-details">
+    <h1 class="main-title">✎ 𝗚𝗮𝗯𝗿 ✎</h1>
         <p>
           ID: /f 1777777 Me Adicione 
         </p>
