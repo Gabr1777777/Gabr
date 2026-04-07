@@ -1,37 +1,3 @@
-<style>
-  /* Moldura Exclusiva - Ajustada para não deixar espaço no topo */
-  .moldura-gabr {
-    width: 180px !important; 
-    height: 180px !important;
-    border: 2px solid #0048FF !important; /* Borda Azul Fina */
-    border-radius: 0% !important; 
-    overflow: hidden !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    
-    /* ZERANDO O ESPAÇO NO TOPO */
-    margin: 0 auto !important; 
-    padding: 0 !important;
-    
-    background-color: #000 !important;
-    box-shadow: 0 0 15px rgba(0, 72, 255, 0.3) !important;
-    position: relative;
-    z-index: 10;
-  }
-
-  .img-gabr {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important; 
-    display: block !important;
-  }
-
-  /* Garante que a capa (cover) não empurre o GIF para baixo */
-  .profile-cover {
-    margin-bottom: -50px !important; /* Puxa a moldura para cima da capa */
-  }
-</style>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -755,14 +721,14 @@
   <body>
     <div class="profile-container">
       <!-- Elementos comunes en la parte superior -->
-    <div class="profile-container">
-  <div class="profile-cover"></div>
-  
-  <div class="moldura-gabr">
-    <img src="https://i.imgur.com/hqDqtpe.gif" alt="Avatar" class="img-gabr">
-  </div>
-  <div class="profile-details">
-    <h1 class="main-title">✎ 𝗚𝗮𝗯𝗿 ✎</h1>
+      <div class="profile-cover"></div>
+      <div class="avatar-container">
+  <img src="https://i.imgur.com/hqDqtpe.gif" alt="Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/150'">
+</div>
+      <div class="profile-details">
+        <h1 class="main-title">
+          ✎  𝗚𝗮𝗯𝗿  ✎
+        </h1>
         <p>
           ID: /f 1777777 Me Adicione 
         </p>
