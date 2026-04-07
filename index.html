@@ -1,3 +1,27 @@
+<style>
+  /* O "!important" força a mudança mesmo se houver código antigo embaixo */
+  .avatar-container {
+    width: 200px !important; 
+    height: 200px !important;
+    border: 5px solid #fff !important; 
+    border-radius: 0% !important; 
+    overflow: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 20px auto !important;
+    background-color: #000 !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+  }
+
+  .avatar {
+    width: 100% !important;
+    height: 100% !important;
+    /* Isso garante que o GIF GABR apareça inteiro sem cortes */
+    object-fit: contain !important; 
+    display: block !important;
+  }
+</style>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
