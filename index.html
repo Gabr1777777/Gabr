@@ -1,3 +1,38 @@
+<style>
+    /* BLINDAGEM TOTAL: Este código só afeta o elemento com o ID específico */
+    #perfil-gabr-exclusivo {
+        width: 180px !important; 
+        height: 180px !important;
+        /* Borda azul WRS fina como você pediu */
+        border: 2px solid #0048FF !important; 
+        border-radius: 0% !important; /* Quadrada para o nome aparecer */
+        overflow: hidden !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        background-color: #000 !important;
+        margin: 0 auto !important; /* Sem espaço extra no topo */
+        padding: 0 !important;
+        box-shadow: 0 0 15px rgba(0, 72, 255, 0.4) !important;
+    }
+
+    #perfil-gabr-exclusivo img {
+        width: 100% !important;
+        height: 100% !important;
+        /* O 'contain' garante que o nome GABR apareça inteiro sem cortes */
+        object-fit: contain !important; 
+        display: block !important;
+    }
+
+    /* Ajuste para a capa não empurrar o GIF para baixo */
+    .profile-cover {
+        margin-bottom: -40px !important;
+    }
+</style>
+
+<div id="perfil-gabr-exclusivo">
+    <img src="https://i.imgur.com/hqDqtpe.gif" alt="Gabr">
+</div>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
