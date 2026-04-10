@@ -12,14 +12,13 @@
             --deep-blue-bar: rgba(0, 10, 31, 0.5); 
         }
 
-        /* AJUSTE RIGOROSO DE ROLAGEM E BARRA MOBILE */
         html, body {
             height: 100%;
             overflow: hidden;
             overscroll-behavior-y: contain; 
         }
 
-        /* BARRA DE ROLAGEM PADRÃO RESTAURADA */
+        /* BARRA DE ROLAGEM PADRÃO */
         .nav-container::-webkit-scrollbar,
         .content-area::-webkit-scrollbar {
             width: 8px;
@@ -117,361 +116,114 @@
             background: rgba(0,0,0,0.5);
         }
 
-        .moldura-flutuante img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+        .moldura-flutuante img { width: 100%; height: 100%; object-fit: contain; }
 
         .btn-entrar, .btn-xat {
-            font-weight: bold;
-            color: white;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
+            font-weight: bold; color: white; text-transform: uppercase; border: none; border-radius: 50px; cursor: pointer;
             background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 300%;
-            animation: moveGradient 4s linear infinite;
-            box-shadow: 0 0 20px rgba(0, 72, 255, 0.6);
-            transition: 0.3s;
-            margin: 5px;
+            background-size: 300%; animation: moveGradient 4s linear infinite; box-shadow: 0 0 20px rgba(0, 72, 255, 0.6); transition: 0.3s; margin: 5px;
         }
 
         .btn-entrar { padding: 15px 60px; font-size: 20px; }
         .btn-xat { padding: 8px 30px; font-size: 14px; }
 
         .xat-submenu {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            margin-top: 10px;
-            background: rgba(0,0,0,0.8);
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid var(--neon-blue);
+            display: none; flex-direction: column; gap: 5px; margin-top: 10px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 10px; border: 1px solid var(--neon-blue);
         }
 
-        .xat-link {
-            color: white;
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 5px 15px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
+        /* Links sem cursor de link para travar barra de links */
+        .xat-link { color: white; text-decoration: none; font-size: 12px; font-weight: bold; padding: 5px 15px; border-radius: 5px; transition: 0.3s; cursor: pointer; }
         .xat-link:hover { background: var(--neon-blue); }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
         body {
-            background-image: url('https://i.imgur.com/iWVWXg2.gif');
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-            color: white;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            -webkit-user-select: none;
-            user-select: none;
+            background-image: url('https://i.imgur.com/iWVWXg2.gif'); background-attachment: fixed; background-size: cover; background-position: center;
+            color: white; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh;
+            -webkit-user-select: none; user-select: none;
         }
 
-        .perfil-header {
-            text-align: center;
-            padding: 20px;
-            border-bottom: 2px solid var(--neon-blue);
-            background: rgba(5, 5, 5, 0.5);
-            z-index: 10;
-            flex-shrink: 0;
-        }
-
+        .perfil-header { text-align: center; padding: 20px; border-bottom: 2px solid var(--neon-blue); background: rgba(5, 5, 5, 0.5); z-index: 10; flex-shrink: 0; }
         .perfil-header h1 {
-            font-size: 2.5rem;
-            margin: 0;
-            background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: moveGradient 4s linear infinite;
+            font-size: 2.5rem; margin: 0; background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff);
+            background-size: 300%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 4s linear infinite;
         }
 
-        .perfil-header p {
-            font-weight: bold;
-            text-transform: uppercase;
-            background: linear-gradient(-45deg, #ffffff, #000000, #ffffff, #000000);
-            background-size: 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: moveGradient 5s linear infinite;
-        }
+        .perfil-header p { font-weight: bold; text-transform: uppercase; background: linear-gradient(-45deg, #ffffff, #000000, #ffffff, #000000); background-size: 300%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 5s linear infinite; }
 
-        .main-wrapper { 
-            display: flex; 
-            flex: 1; 
-            overflow: hidden;
-            position: relative;
-        }
+        .main-wrapper { display: flex; flex: 1; overflow: hidden; position: relative; }
 
         .nav-container {
-            display: flex;
-            flex-direction: column;
-            width: 250px;
-            gap: 8px; /* Reduzido levemente */
-            padding: 15px; /* Reduzido levemente */
-            background: rgba(0, 0, 0, 0.4);
-            border-right: 1px solid var(--neon-blue);
-            z-index: 20;
-            overflow-y: auto;
-            flex-shrink: 0;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            -webkit-overflow-scrolling: touch;
-            touch-action: pan-y;
+            display: flex; flex-direction: column; width: 250px; gap: 8px; padding: 15px; background: rgba(0, 0, 0, 0.4); border-right: 1px solid var(--neon-blue);
+            z-index: 20; overflow-y: auto; flex-shrink: 0; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); -webkit-overflow-scrolling: touch; touch-action: pan-y;
         }
 
-        .nav-hidden .nav-container {
-            transform: translateX(-100%);
-            position: absolute;
-        }
+        .nav-hidden .nav-container { transform: translateX(-100%); position: absolute; }
 
-        /* BOTÕES UM POUCO MENORES PARA CABER NO MOBILE */
         .nav-btn {
-            background: var(--deep-blue-bar);
-            border: 1px solid rgba(0, 38, 138, 0.5);
-            padding: 12px; /* Reduzido de 15px para 12px */
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 15px; /* Reduzido de 17px para 15px */
-            transition: all 0.3s ease;
-            color: white;
-            text-align: left;
-            text-decoration: none;
-            display: block;
-            flex-shrink: 0;
+            background: var(--deep-blue-bar); border: 1px solid rgba(0, 38, 138, 0.5); padding: 12px; cursor: pointer;
+            font-weight: bold; text-transform: uppercase; font-size: 15px; transition: all 0.3s ease; color: white; text-align: left; display: block; flex-shrink: 0;
         }
 
-        .nav-btn:hover, .nav-btn.active {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 20px var(--neon-blue);
-            background: rgba(0, 72, 255, 0.3);
-            transform: translateX(8px);
-        }
+        .nav-btn:hover, .nav-btn.active { border-color: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); background: rgba(0, 72, 255, 0.3); transform: translateX(8px); }
+        .nav-btn span { background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 3s linear infinite; }
 
-        .nav-btn span {
-            background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: moveGradient 3s linear infinite;
-        }
+        .content-area { flex: 1; padding: 30px; overflow-y: auto; z-index: 15; position: relative; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); -webkit-overflow-scrolling: touch; touch-action: pan-y; }
 
-        .content-area { 
-            flex: 1; 
-            padding: 30px; 
-            overflow-y: auto;
-            z-index: 15;
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            -webkit-overflow-scrolling: touch;
-            touch-action: pan-y;
-        }
-
-        .btn-voltar {
-            display: none;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            font-size: 14px;
-            background: var(--deep-blue-bar);
-            border: 1px solid var(--neon-blue);
-            color: white;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-weight: bold;
-            border-radius: 4px;
-            box-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .nav-hidden .btn-voltar {
-            display: inline-block;
-        }
+        .btn-voltar { display: none; margin-bottom: 20px; padding: 10px 20px; font-size: 14px; background: var(--deep-blue-bar); border: 1px solid var(--neon-blue); color: white; cursor: pointer; text-transform: uppercase; font-weight: bold; border-radius: 4px; box-shadow: 0 0 10px var(--neon-blue); }
+        .nav-hidden .btn-voltar { display: inline-block; }
 
         .section { display: none; width: 100%; }
         .section.active { display: block; }
-
         .grid-container { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
         .grid-gifs { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
         
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(34, 34, 34, 0.5);
-            border-radius: 4px; overflow: hidden; text-align: center; cursor: zoom-in; transition: 0.3s;
-        }
+        .card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); border-radius: 4px; overflow: hidden; text-align: center; cursor: zoom-in; transition: 0.3s; }
         .card:hover { border-color: var(--neon-blue); transform: scale(1.05); box-shadow: 0 0 25px var(--neon-blue); background: rgba(17, 17, 17, 0.8); }
         .card img { width: 100%; display: block; }
         .card .label { padding: 8px 5px; font-size: 11px; background: rgba(10, 10, 10, 0.6); text-transform: uppercase; font-weight: bold; }
 
         .info-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .info-card { 
-            background: var(--card-bg); 
-            border: 1px solid rgba(34, 34, 34, 0.5); 
-            padding: 20px; 
-            border-radius: 4px; 
-            transition: all 0.3s ease; 
-        }
-        .info-card:hover { 
-            border-color: var(--neon-blue); 
-            box-shadow: 0 0 20px var(--neon-blue); 
-            transform: scale(1.01); 
-            background: rgba(17, 17, 17, 0.7); 
-        }
+        .info-card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); padding: 20px; border-radius: 4px; transition: all 0.3s ease; }
+        .info-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); transform: scale(1.01); background: rgba(17, 17, 17, 0.7); }
         .info-card.full-width { grid-column: 1 / span 2; }
-        .info-card h3 {
-            margin-top: 0; text-transform: uppercase;
-            background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 300%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-            animation: moveGradient 4s linear infinite;
-        }
+        .info-card h3 { margin-top: 0; text-transform: uppercase; background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 300%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 4s linear infinite; }
 
-        .marquee-container { 
-            background: var(--deep-blue-bar); 
-            border: 1px solid rgba(0, 38, 138, 0.5); 
-            width: 100%; 
-            overflow: hidden; 
-            margin-bottom: 20px; 
-            padding: 15px 0; 
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+        .marquee-container { background: var(--deep-blue-bar); border: 1px solid rgba(0, 38, 138, 0.5); width: 100%; overflow: hidden; margin-bottom: 20px; padding: 15px 0; position: relative; display: flex; align-items: center; }
+        .marquee-content { display: inline-block; white-space: nowrap; position: absolute; will-change: transform; animation: linear-scroll-inside 15s linear infinite; }
+        .texto-animado { font-weight: bold; font-size: 22px; background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 3s linear infinite; padding: 0 10px; }
 
-        .marquee-content { 
-            display: inline-block; 
-            white-space: nowrap; 
-            position: absolute;
-            will-change: transform;
-            animation: linear-scroll-inside 15s linear infinite; 
-        }
-
-        .texto-animado {
-            font-weight: bold; 
-            font-size: 22px; 
-            background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-            animation: moveGradient 3s linear infinite;
-            padding: 0 10px;
-        }
-
-        @keyframes linear-scroll-inside { 
-            0% { transform: translateX(100%); } 
-            100% { transform: translateX(-100%); } 
-        }
-
+        @keyframes linear-scroll-inside { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         @keyframes moveGradient { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
 
-        .player-container { 
-            max-width: 400px; 
-            margin: 20px auto; 
-            background: var(--card-bg); 
-            border: 2px solid var(--neon-blue); 
-            border-radius: 8px; 
-            padding: 20px; 
-            box-shadow: 0 0 20px var(--neon-blue); 
-            text-align: center; 
-            position: relative;
-            z-index: 10;
-        }
-        
-        .track-marquee { 
-            width: 100%; 
-            overflow: hidden; 
-            white-space: nowrap; 
-            background: rgba(0, 0, 0, 0.3); 
-            padding: 10px 0; 
-            margin-bottom: 20px; 
-            position: relative;
-            height: 30px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .track-name, .vol-label { 
-            display: inline-block; 
-            font-weight: bold; 
-            text-transform: uppercase;
-            background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 200% auto; 
-            -webkit-background-clip: text; 
-            background-clip: text; 
-            -webkit-text-fill-color: transparent;
-            animation: moveGradient 3s linear infinite; 
-        }
-
-        .track-name { 
-            position: absolute;
-            will-change: transform;
-            animation: linear-scroll-inside 20s linear infinite, moveGradient 3s linear infinite; 
-        }
+        .player-container { max-width: 400px; margin: 20px auto; background: var(--card-bg); border: 2px solid var(--neon-blue); border-radius: 8px; padding: 20px; box-shadow: 0 0 20px var(--neon-blue); text-align: center; position: relative; z-index: 10; }
+        .track-marquee { width: 100%; overflow: hidden; white-space: nowrap; background: rgba(0, 0, 0, 0.3); padding: 10px 0; margin-bottom: 20px; position: relative; height: 30px; display: flex; align-items: center; }
+        .track-name, .vol-label { display: inline-block; font-weight: bold; text-transform: uppercase; background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 3s linear infinite; }
+        .track-name { position: absolute; will-change: transform; animation: linear-scroll-inside 20s linear infinite, moveGradient 3s linear infinite; }
 
         .modal { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); justify-content: center; align-items: center; }
         .modal-content { max-width: 80%; max-height: 80%; border: 2px solid var(--neon-blue); }
 
-        #visit-counter {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1; 
-            background: rgba(5, 5, 5, 0.5); 
-            border: 1px solid var(--neon-blue);
-            padding: 6px 12px;
-            border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 0 15px var(--neon-blue);
-            backdrop-filter: blur(2px);
-        }
-
-        .exclusive-footer {
-            margin-top: auto;
-            padding-top: 15px;
-            text-align: center;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 9px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: moveGradient 3s linear infinite;
-        }
-
+        #visit-counter { position: fixed; bottom: 20px; right: 20px; z-index: 1; background: rgba(5, 5, 5, 0.5); border: 1px solid var(--neon-blue); padding: 6px 12px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 15px var(--neon-blue); backdrop-filter: blur(2px); }
+        .exclusive-footer { margin-top: auto; padding-top: 15px; text-align: center; font-size: 9px; font-weight: bold; text-transform: uppercase; background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 3s linear infinite; }
     </style>
 </head>
 <body oncontextmenu="showAlert(); return false;">
 
     <script>
+        // Efeito de estrelas no mouse
         document.addEventListener('mousemove', function(e) {
             const star = document.createElement('div');
             star.classList.add('cursor-star');
-            star.style.left = e.pageX + 'px';
-            star.style.top = e.pageY + 'px';
+            star.style.left = e.pageX + 'px'; star.style.top = e.pageY + 'px';
             document.body.appendChild(star);
             setTimeout(() => { star.remove(); }, 700);
         });
+
+        // Função para abrir links sem mostrar URL na barra de status
+        function irPara(url) {
+            window.open(url, '_blank');
+        }
     </script>
 
     <div id="copyright-alert" class="copy-alert">
@@ -484,9 +236,9 @@
         <button class="btn-entrar" onclick="entrarGaleria()">Entrar</button>
         <button class="btn-xat" onclick="toggleXatMenu()">Xat</button>
         <div id="xat-menu" class="xat-submenu">
-            <a href="https://xat.com/Butecopremium" target="_blank" class="xat-link">Xat Buteco</a>
-            <a href="https://xat.com/TUGA" target="_blank" class="xat-link">Xat TUGA</a>
-            <a href="https://xat.com/trade" target="_blank" class="xat-link">Xat Trade</a>
+            <div onclick="irPara('https://xat.com/Butecopremium')" class="xat-link">Xat Buteco</div>
+            <div onclick="irPara('https://xat.com/TUGA')" class="xat-link">Xat TUGA</div>
+            <div onclick="irPara('https://xat.com/trade')" class="xat-link">Xat Trade</div>
         </div>
     </div>
 
@@ -504,11 +256,9 @@
             <button class="nav-btn" onclick="showTab('pcback-est')"><span>PCBACK ESTÁTICO</span></button>
             <button class="nav-btn" onclick="showTab('pstyle-est')"><span>PSTYLE ESTÁTICO</span></button>
             <button class="nav-btn" onclick="showTab('fundos')"><span>FUNDOS</span></button>
-            <a href="https://gabr1777777.github.io/GaleriaXatspace/" target="_blank" class="nav-btn"><span>XATSPACE</span></a>
+            <div class="nav-btn" onclick="irPara('https://gabr1777777.github.io/GaleriaXatspace/')"><span>XATSPACE</span></div>
             <button class="nav-btn" onclick="showTab('player')"><span>Player</span></button>
-            <div class="exclusive-footer">
-                Galeria exclusiva 2026 - By: Gabr (1777777)
-            </div>
+            <div class="exclusive-footer">Galeria exclusiva 2026 - By: Gabr (1777777)</div>
         </div>
 
         <div class="content-area">
@@ -521,12 +271,14 @@
                     <div class="info-card full-width"><h3>Sell ID 10 Digts - 1k each (Never used)</h3><p id="ids-venda">(SOLD 1553333003), 1553333005, 1553333013, 1553333024, 1553333040, 1553333505, 1553333903, 1553333027, 1553333484, 1553333494, 1553333579, 1549200800, 1549200900, 1549203020, 1553350006, 1553342014, 1480335366, 1484529437, 1484529434, 1484529671, 1480335587, 1480335597, 1484529675, 1480335580, 1484529908, 1553350001, 1553350006, 1553350010, 1553350019, 1553350022, 1553350080, 1553358001, 1553358004, 1549200788, 1549200822, 1549200844, 1557799002, 1553366005, 1549200844, 1553347776, 1529199110, 1529199070, 1529199294, 1529199883, 1533393277, 1533393300, 1533393338, 1533393573, 1533393580, 1529200133, 1529202490, 1529202505, 1529202530, 1529204010, 1533394241</p></div>
                 </div>
             </div>
+
             <div id="gifs" class="section"></div>
             <div id="pcback-gif" class="section"><div class="grid-container" id="content-pcback-gif"></div></div>
             <div id="pstyle-gif" class="section"><div class="grid-container" id="content-pstyle-gif"></div></div>
             <div id="pcback-est" class="section"><div class="grid-container" id="content-pcback-est"></div></div>
             <div id="pstyle-est" class="section"><div class="grid-container" id="content-pstyle-est"></div></div>
             <div id="fundos" class="section"><div class="grid-container" id="content-fundos"></div></div>
+
             <div id="player" class="section">
                 <div class="player-container">
                     <div class="track-marquee"><span id="trackName" class="track-name">Selecione uma música...</span></div>
@@ -557,11 +309,8 @@
             try {
                 const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
                 const dataV = await resV.json();
-                const valor = dataV.count || dataV.value;
-                document.getElementById('count-number').innerText = valor;
-            } catch(e) {
-                document.getElementById('count-number').innerText = "1";
-            }
+                document.getElementById('count-number').innerText = dataV.count || dataV.value;
+            } catch(e) { document.getElementById('count-number').innerText = "1"; }
         }
 
         function toggleXatMenu() {
@@ -594,10 +343,9 @@
         audio.volume = 0.5;
 
         function cycleVolume() {
-            const btn = document.getElementById('volBtn');
-            if (audio.volume === 0.0) { audio.volume = 0.5; btn.innerText = "50%"; }
-            else if (audio.volume === 0.5) { audio.volume = 1.0; btn.innerText = "100%"; }
-            else { audio.volume = 0.0; btn.innerText = "0%"; }
+            if (audio.volume === 0.0) { audio.volume = 0.5; document.getElementById('volBtn').innerText = "50%"; }
+            else if (audio.volume === 0.5) { audio.volume = 1.0; document.getElementById('volBtn').innerText = "100%"; }
+            else { audio.volume = 0.0; document.getElementById('volBtn').innerText = "0%"; }
         }
 
         function entrarGaleria() {
@@ -615,20 +363,13 @@
                 target.classList.add('active');
                 document.querySelector('.content-area').scrollTop = 0;
             }
-            
             if(window.event && window.event.currentTarget.tagName === 'BUTTON') {
                 window.event.currentTarget.classList.add('active');
             }
-
-            if (window.innerWidth <= 768) {
-                document.getElementById('mainWrapper').classList.add('nav-hidden');
-            }
+            if (window.innerWidth <= 768) { document.getElementById('mainWrapper').classList.add('nav-hidden'); }
         }
 
-        function voltarMenu() {
-            document.getElementById('mainWrapper').classList.remove('nav-hidden');
-        }
-
+        function voltarMenu() { document.getElementById('mainWrapper').classList.remove('nav-hidden'); }
         function loadTrack(i) { audio.src = playlist[i].url; document.getElementById('trackName').innerText = playlist[i].name; }
         function togglePlay() { if(audio.paused) { if(!audio.src) loadTrack(currentTrack); audio.play().catch(e => {}); document.getElementById('playBtn').innerText='||'; } else { audio.pause(); document.getElementById('playBtn').innerText='▶'; } }
         function nextTrack() { currentTrack=(currentTrack+1)%playlist.length; loadTrack(currentTrack); audio.play(); document.getElementById('playBtn').innerText='||'; }
@@ -640,21 +381,17 @@
 
         function render() {
             const gifSec = document.getElementById('gifs');
-            const dataGifs = [
-                { marquee: "Blufftitler - Only Name - 250 Xats", prefix: "Name - ", ids: ["bidwh1D", "wR2NpTV", "IMrOUcP", "Hdi04Sg", "OcGaTXA", "wJZiwkG", "jDgxhBQ", "USQgVk8", "4bhAWa5", "0LL3muu"] }
-            ];
+            const dataGifs = [{ marquee: "Blufftitler - Only Name - 250 Xats", prefix: "Name - ", ids: ["bidwh1D", "wR2NpTV", "IMrOUcP", "Hdi04Sg", "OcGaTXA", "wJZiwkG", "jDgxhBQ", "USQgVk8", "4bhAWa5", "0LL3muu"] }];
             gifSec.innerHTML = "";
             dataGifs.forEach(sec => {
                 let h = `<div class="marquee-container"><div class="marquee-content"><span class="texto-animado">${sec.marquee}</span></div></div><div class="grid-gifs">`;
                 sec.ids.forEach((id, i) => { h += `<div class="card" onclick="openZoom('https://i.imgur.com/${id}.gif')"><img src="https://i.imgur.com/${id}.gif"><div class="label">${sec.prefix}${i+1}</div></div>`; });
                 h += `</div>`; gifSec.innerHTML += h;
             });
-
             const configs = [
                 { id: 'content-pcback-gif', urls: ['SFnk7A6.gif', 'KKY2zqU.gif', 'fmhynyY.gif', '28xDTg0.gif', '9R35WMu.gif', 'kSK0E1f.gif', 'l2y5xFa.gif', 'ZDbAiNK.gif', 'fRmpR5e.gif', 'TUdO2r8.gif', 'clgE48o.gif', 'gWgkiku.gif', 'vS55bUO.gif'], label: 'PCBack Gif' },
                 { id: 'content-fundos', urls: ['eJtGG3D.png', 'Q8XwtQZ.png', '6phSrhR.png', 'yeQZf5S.png', 'RDsR3k5.png', 'EXCVWDO.png', 'umcaiMq.png', 'hzjUj8q.png', 'zQj5X8P.png', 'OojsaCj.png'], label: 'FUNDO' }
             ];
-            
             configs.forEach(c => {
                 const el = document.getElementById(c.id);
                 if (el) {
