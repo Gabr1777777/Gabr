@@ -12,28 +12,31 @@
             --deep-blue-bar: rgba(0, 10, 31, 0.5); 
         }
 
-        /* AJUSTE RIGOROSO DE ROLAGEM E BARRA */
+        /* AJUSTE RIGOROSO DE ROLAGEM E BARRA MOBILE */
         html, body {
             height: 100%;
             overflow: hidden;
-            overscroll-behavior-y: contain; /* Impede o efeito de mola que faz a página voltar */
+            overscroll-behavior-y: contain; 
         }
 
-        /* BARRA DE ROLAGEM AMPLIADA PARA MELHOR TOQUE */
+        /* BARRA DE ROLAGEM EXTRA LARGA PARA MOBILE (ÁREA DE TOQUE AMPLIADA) */
         .nav-container::-webkit-scrollbar,
         .content-area::-webkit-scrollbar {
-            width: 20px; /* Aumentada para facilitar o manuseio */
+            width: 30px; /* Largura ideal para toque com o dedo */
         }
+        
         .nav-container::-webkit-scrollbar-track,
         .content-area::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
         }
+        
         .nav-container::-webkit-scrollbar-thumb,
         .content-area::-webkit-scrollbar-thumb {
             background: var(--neon-blue);
-            border-radius: 10px;
-            box-shadow: 0 0 12px var(--neon-blue);
-            border: 3px solid rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 0 15px var(--neon-blue);
+            /* O border cria um espaçamento visual, mas a área de 30px continua clicável */
+            border: 8px solid rgba(0, 0, 0, 0.5); 
         }
 
         .cursor-star {
@@ -230,7 +233,7 @@
             background: rgba(0, 0, 0, 0.4);
             border-right: 1px solid var(--neon-blue);
             z-index: 20;
-            overflow-y: scroll; /* Força a exibição da barra */
+            overflow-y: scroll;
             flex-shrink: 0;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             -webkit-overflow-scrolling: touch;
