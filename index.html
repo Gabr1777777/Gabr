@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Galeria Profissional WRS</title>
     <style>
         :root {
@@ -12,31 +12,30 @@
             --deep-blue-bar: rgba(0, 10, 31, 0.5); 
         }
 
-        /* CORREÇÃO RIGOROSA DE ROLAGEM MOBILE */
+        /* AJUSTE RIGOROSO DE ROLAGEM E BARRA */
         html, body {
             height: 100%;
-            overflow: hidden; /* Mantém o wrapper como base */
-            overscroll-behavior-y: contain; /* Impede o efeito de mola/retorno */
+            overflow: hidden;
+            overscroll-behavior-y: contain; /* Impede o efeito de mola que faz a página voltar */
         }
 
-        /* PERSONALIZAÇÃO DAS BARRAS DE ROLAGEM */
+        /* BARRA DE ROLAGEM AMPLIADA PARA MELHOR TOQUE */
         .nav-container::-webkit-scrollbar,
         .content-area::-webkit-scrollbar {
-            width: 14px;
+            width: 20px; /* Aumentada para facilitar o manuseio */
         }
         .nav-container::-webkit-scrollbar-track,
         .content-area::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
         }
         .nav-container::-webkit-scrollbar-thumb,
         .content-area::-webkit-scrollbar-thumb {
             background: var(--neon-blue);
             border-radius: 10px;
-            box-shadow: 0 0 10px var(--neon-blue);
-            border: 2px solid rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 12px var(--neon-blue);
+            border: 3px solid rgba(0, 0, 0, 0.3);
         }
 
-        /* ESTILOS DO EFEITO DO CURSOR */
         .cursor-star {
             position: absolute;
             background: #fff;
@@ -181,8 +180,6 @@
             flex-direction: column;
             height: 100vh;
             -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
             user-select: none;
         }
 
@@ -222,7 +219,6 @@
             flex: 1; 
             overflow: hidden;
             position: relative;
-            touch-action: none; /* Previne scroll acidental do body */
         }
 
         .nav-container {
@@ -234,11 +230,11 @@
             background: rgba(0, 0, 0, 0.4);
             border-right: 1px solid var(--neon-blue);
             z-index: 20;
-            overflow-y: auto;
+            overflow-y: scroll; /* Força a exibição da barra */
             flex-shrink: 0;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            touch-action: pan-y;
             -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
 
         .nav-hidden .nav-container {
@@ -583,16 +579,6 @@
             }
         });
 
-        (function() {
-            const links = document.querySelectorAll('a, .nav-btn, .card');
-            links.forEach(link => {
-                const originalHref = link.getAttribute('href') || "";
-                link.addEventListener('mouseenter', function() { if(originalHref) link.removeAttribute('href'); });
-                link.addEventListener('mouseleave', function() { if(originalHref) link.setAttribute('href', originalHref); });
-                link.addEventListener('mousedown', function() { if(originalHref) link.setAttribute('href', originalHref); });
-            });
-        })();
-
         const playlist = [
             { name: "Alex Warren - Ordinary", url: "https://www.dropbox.com/scl/fi/lpcx92wv63wzcm6z56l7q/Alex-Warren-Ordinary.mp3?rlkey=pdxjo778t66ecrja08pfyij6k&st=zb53k17t&raw=1" },
             { name: "Abraham-Mateo - BAI LALA", url: "https://dl.dropboxusercontent.com/scl/fi/gw8940zfvm60ul7malxox/Abraham-Mateo-BAI-LALA.mp3?rlkey=puytwnkxllb6tmz35htfr8tmh" },
@@ -625,7 +611,6 @@
             const target = document.getElementById(id);
             if (target) {
                 target.classList.add('active');
-                // Rigoroso: Reset scroll interno da área ao trocar de aba
                 document.querySelector('.content-area').scrollTop = 0;
             }
             
@@ -664,16 +649,8 @@
             });
 
             const configs = [
-                { 
-                    id: 'content-pcback-gif', 
-                    urls: ['SFnk7A6.gif', 'KKY2zqU.gif', 'fmhynyY.gif', '28xDTg0.gif', '9R35WMu.gif', 'kSK0E1f.gif', 'l2y5xFa.gif', 'ZDbAiNK.gif', 'fRmpR5e.gif', 'TUdO2r8.gif', 'clgE48o.gif', 'gWgkiku.gif', 'vS55bUO.gif'], 
-                    label: 'PCBack Gif'
-                },
-                { 
-                    id: 'content-fundos', 
-                    urls: ['eJtGG3D.png', 'Q8XwtQZ.png', '6phSrhR.png', 'yeQZf5S.png', 'RDsR3k5.png', 'EXCVWDO.png', 'umcaiMq.png', 'hzjUj8q.png', 'zQj5X8P.png', 'OojsaCj.png'], 
-                    label: 'FUNDO'
-                }
+                { id: 'content-pcback-gif', urls: ['SFnk7A6.gif', 'KKY2zqU.gif', 'fmhynyY.gif', '28xDTg0.gif', '9R35WMu.gif', 'kSK0E1f.gif', 'l2y5xFa.gif', 'ZDbAiNK.gif', 'fRmpR5e.gif', 'TUdO2r8.gif', 'clgE48o.gif', 'gWgkiku.gif', 'vS55bUO.gif'], label: 'PCBack Gif' },
+                { id: 'content-fundos', urls: ['eJtGG3D.png', 'Q8XwtQZ.png', '6phSrhR.png', 'yeQZf5S.png', 'RDsR3k5.png', 'EXCVWDO.png', 'umcaiMq.png', 'hzjUj8q.png', 'zQj5X8P.png', 'OojsaCj.png'], label: 'FUNDO' }
             ];
             
             configs.forEach(c => {
@@ -682,11 +659,7 @@
                     el.innerHTML = "";
                     c.urls.forEach((imgId, index) => {
                         const fullUrl = `https://i.imgur.com/${imgId}`;
-                        el.innerHTML += `
-                            <div class="card" onclick="openZoom('${fullUrl}')">
-                                <img src="${fullUrl}">
-                                <div class="label">${c.label} - ${index + 1}</div>
-                            </div>`;
+                        el.innerHTML += `<div class="card" onclick="openZoom('${fullUrl}')"><img src="${fullUrl}"><div class="label">${c.label} - ${index + 1}</div></div>`;
                     });
                 }
             });
