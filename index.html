@@ -20,17 +20,20 @@
 
         /* BARRA DE ROLAGEM PADRÃO */
         .nav-container::-webkit-scrollbar,
-        .content-area::-webkit-scrollbar {
+        .content-area::-webkit-scrollbar,
+        #inicio::-webkit-scrollbar {
             width: 8px;
         }
         
         .nav-container::-webkit-scrollbar-track,
-        .content-area::-webkit-scrollbar-track {
+        .content-area::-webkit-scrollbar-track,
+        #inicio::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.5);
         }
         
         .nav-container::-webkit-scrollbar-thumb,
-        .content-area::-webkit-scrollbar-thumb {
+        .content-area::-webkit-scrollbar-thumb,
+        #inicio::-webkit-scrollbar-thumb {
             background: var(--neon-blue);
             border-radius: 10px;
             box-shadow: 0 0 10px var(--neon-blue);
@@ -131,7 +134,6 @@
             display: none; flex-direction: column; gap: 5px; margin-top: 10px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 10px; border: 1px solid var(--neon-blue);
         }
 
-        /* Links sem cursor de link para travar barra de links */
         .xat-link { color: white; text-decoration: none; font-size: 12px; font-weight: bold; padding: 5px 15px; border-radius: 5px; transition: 0.3s; cursor: pointer; }
         .xat-link:hover { background: var(--neon-blue); }
 
@@ -175,6 +177,15 @@
 
         .section { display: none; width: 100%; }
         .section.active { display: block; }
+        
+        /* AJUSTE RIGOROSO: ROLAGEM NA SEÇÃO INÍCIO */
+        #inicio { 
+            max-height: 100%; 
+            overflow-y: auto; 
+            padding-right: 5px;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .grid-container { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
         .grid-gifs { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
         
@@ -184,6 +195,11 @@
         .card .label { padding: 8px 5px; font-size: 11px; background: rgba(10, 10, 10, 0.6); text-transform: uppercase; font-weight: bold; }
 
         .info-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) {
+            .info-cards { grid-template-columns: 1fr; }
+            .info-card.full-width { grid-column: 1; }
+        }
+
         .info-card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); padding: 20px; border-radius: 4px; transition: all 0.3s ease; }
         .info-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); transform: scale(1.01); background: rgba(17, 17, 17, 0.7); }
         .info-card.full-width { grid-column: 1 / span 2; }
@@ -211,7 +227,6 @@
 <body oncontextmenu="showAlert(); return false;">
 
     <script>
-        // Efeito de estrelas no mouse
         document.addEventListener('mousemove', function(e) {
             const star = document.createElement('div');
             star.classList.add('cursor-star');
@@ -220,10 +235,7 @@
             setTimeout(() => { star.remove(); }, 700);
         });
 
-        // Função para abrir links sem mostrar URL na barra de status
-        function irPara(url) {
-            window.open(url, '_blank');
-        }
+        function irPara(url) { window.open(url, '_blank'); }
     </script>
 
     <div id="copyright-alert" class="copy-alert">
@@ -361,6 +373,7 @@
             const target = document.getElementById(id);
             if (target) {
                 target.classList.add('active');
+                target.scrollTop = 0; // Reseta rolagem da seção ao mudar
                 document.querySelector('.content-area').scrollTop = 0;
             }
             if(window.event && window.event.currentTarget.tagName === 'BUTTON') {
