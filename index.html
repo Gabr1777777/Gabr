@@ -12,10 +12,10 @@
             --deep-blue-bar: rgba(0, 10, 31, 0.5); 
         }
 
-        /* PERSONALIZAÇÃO DAS BARRAS DE ROLAGEM */
+        /* PERSONALIZAÇÃO DAS BARRAS DE ROLAGEM - AUMENTADO PARA MELHORAR O MOBILE */
         .nav-container::-webkit-scrollbar,
         .content-area::-webkit-scrollbar {
-            width: 8px;
+            width: 14px; /* Aumentado de 8px para 14px */
         }
         .nav-container::-webkit-scrollbar-track,
         .content-area::-webkit-scrollbar-track {
@@ -26,6 +26,7 @@
             background: var(--neon-blue);
             border-radius: 10px;
             box-shadow: 0 0 10px var(--neon-blue);
+            border: 2px solid rgba(0, 0, 0, 0.2); /* Adicionado borda para facilitar o clique */
         }
 
         /* ESTILOS DO EFEITO DO CURSOR */
@@ -229,6 +230,7 @@
             overflow-y: auto;
             flex-shrink: 0;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            touch-action: pan-y; /* Melhora o deslizamento no mobile */
         }
 
         /* Classe para esconder o menu */
