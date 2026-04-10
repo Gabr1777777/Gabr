@@ -231,7 +231,7 @@
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Classe para esconder o menu */
+        /* AJUSTE PARA O MENU SUMIR NO MOBILE QUANDO CLICADO */
         .nav-hidden .nav-container {
             transform: translateX(-100%);
             position: absolute;
@@ -278,11 +278,11 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Estilo do botão voltar */
+        /* O BOTÃO VOLTAR APARECE QUANDO O MENU ESTÁ ESCONDIDO */
         .btn-voltar {
             display: none;
             margin-bottom: 20px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-size: 14px;
             background: var(--deep-blue-bar);
             border: 1px solid var(--neon-blue);
@@ -292,10 +292,12 @@
             font-weight: bold;
             border-radius: 4px;
             box-shadow: 0 0 10px var(--neon-blue);
+            width: 100%;
+            max-width: 200px;
         }
 
         .nav-hidden .btn-voltar {
-            display: inline-block;
+            display: block;
         }
 
         .section { display: none; width: 100%; }
@@ -451,6 +453,13 @@
             animation: moveGradient 3s linear infinite;
         }
 
+        /* MEDIA QUERY PARA AJUSTE MOBILE */
+        @media screen and (max-width: 768px) {
+            .perfil-header h1 { font-size: 1.8rem; }
+            .info-cards { grid-template-columns: 1fr; }
+            .info-card.full-width { grid-column: 1; }
+        }
+
     </style>
 </head>
 <body oncontextmenu="showAlert(); return false;">
@@ -573,16 +582,6 @@
             }
         });
 
-        (function() {
-            const links = document.querySelectorAll('a, .nav-btn, .card');
-            links.forEach(link => {
-                const originalHref = link.getAttribute('href') || "";
-                link.addEventListener('mouseenter', function() { if(originalHref) link.removeAttribute('href'); });
-                link.addEventListener('mouseleave', function() { if(originalHref) link.setAttribute('href', originalHref); });
-                link.addEventListener('mousedown', function() { if(originalHref) link.setAttribute('href', originalHref); });
-            });
-        })();
-
         const playlist = [
             { name: "Alex Warren - Ordinary", url: "https://www.dropbox.com/scl/fi/lpcx92wv63wzcm6z56l7q/Alex-Warren-Ordinary.mp3?rlkey=pdxjo778t66ecrja08pfyij6k&st=zb53k17t&raw=1" },
             { name: "Abraham-Mateo - BAI LALA", url: "https://dl.dropboxusercontent.com/scl/fi/gw8940zfvm60ul7malxox/Abraham-Mateo-BAI-LALA.mp3?rlkey=puytwnkxllb6tmz35htfr8tmh" },
@@ -609,6 +608,7 @@
             togglePlay(); 
         }
 
+        // FUNÇÃO AJUSTADA PARA ESCONDER O MENU NO CELULAR
         function showTab(id) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -619,12 +619,13 @@
                 window.event.currentTarget.classList.add('active');
             }
 
-            // Ativa o modo tela cheia de conteúdo apenas em telas menores (mobile)
+            // Ativa o modo de visualização de conteúdo apenas em telas menores
             if (window.innerWidth <= 768) {
                 document.getElementById('mainWrapper').classList.add('nav-hidden');
             }
         }
 
+        // FUNÇÃO PARA VOLTAR A APARECER OS BOTÕES
         function voltarMenu() {
             document.getElementById('mainWrapper').classList.remove('nav-hidden');
         }
