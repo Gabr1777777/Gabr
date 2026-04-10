@@ -12,10 +12,17 @@
             --deep-blue-bar: rgba(0, 10, 31, 0.5); 
         }
 
-        /* PERSONALIZAÇÃO DAS BARRAS DE ROLAGEM - AUMENTADO PARA MELHORAR O MOBILE */
+        /* CORREÇÃO RIGOROSA DE ROLAGEM MOBILE */
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Mantém o wrapper como base */
+            overscroll-behavior-y: contain; /* Impede o efeito de mola/retorno */
+        }
+
+        /* PERSONALIZAÇÃO DAS BARRAS DE ROLAGEM */
         .nav-container::-webkit-scrollbar,
         .content-area::-webkit-scrollbar {
-            width: 14px; /* Aumentado de 8px para 14px */
+            width: 14px;
         }
         .nav-container::-webkit-scrollbar-track,
         .content-area::-webkit-scrollbar-track {
@@ -26,7 +33,7 @@
             background: var(--neon-blue);
             border-radius: 10px;
             box-shadow: 0 0 10px var(--neon-blue);
-            border: 2px solid rgba(0, 0, 0, 0.2); /* Adicionado borda para facilitar o clique */
+            border: 2px solid rgba(0, 0, 0, 0.2);
         }
 
         /* ESTILOS DO EFEITO DO CURSOR */
@@ -173,7 +180,6 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            overflow: hidden;
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -216,6 +222,7 @@
             flex: 1; 
             overflow: hidden;
             position: relative;
+            touch-action: none; /* Previne scroll acidental do body */
         }
 
         .nav-container {
@@ -230,10 +237,10 @@
             overflow-y: auto;
             flex-shrink: 0;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            touch-action: pan-y; /* Melhora o deslizamento no mobile */
+            touch-action: pan-y;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* Classe para esconder o menu */
         .nav-hidden .nav-container {
             transform: translateX(-100%);
             position: absolute;
@@ -278,9 +285,10 @@
             z-index: 15;
             position: relative;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
 
-        /* Estilo do botão voltar */
         .btn-voltar {
             display: none;
             margin-bottom: 20px;
@@ -615,13 +623,16 @@
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             const target = document.getElementById(id);
-            if (target) target.classList.add('active');
+            if (target) {
+                target.classList.add('active');
+                // Rigoroso: Reset scroll interno da área ao trocar de aba
+                document.querySelector('.content-area').scrollTop = 0;
+            }
             
             if(window.event && window.event.currentTarget.tagName === 'BUTTON') {
                 window.event.currentTarget.classList.add('active');
             }
 
-            // Ativa o modo tela cheia de conteúdo apenas em telas menores (mobile)
             if (window.innerWidth <= 768) {
                 document.getElementById('mainWrapper').classList.add('nav-hidden');
             }
