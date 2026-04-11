@@ -2,481 +2,104 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Galeria Profissional WRS</title>
+    <title>Status Transparente GABR</title>
     <style>
-        :root {
-            --neon-blue: #0048FF;
-            --bg-dark: #050505;
-            --card-bg: rgba(17, 17, 17, 0.5);
-            --deep-blue-bar: rgba(0, 10, 31, 0.5); 
+        /* Estilo Glassmorphism e Neon */
+        body {
+            background: #0a0a0a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            overscroll-behavior-y: contain; 
-        }
-
-        /* BARRA DE ROLAGEM PADRÃO - ORIENTAÇÃO VERTICAL */
-        .nav-container::-webkit-scrollbar,
-        .content-area::-webkit-scrollbar,
-        #inicio::-webkit-scrollbar,
-        .section::-webkit-scrollbar {
-            width: 8px;
-            height: 0px; /* Desativa barra horizontal */
-        }
-        
-        .nav-container::-webkit-scrollbar-track,
-        .content-area::-webkit-scrollbar-track,
-        #inicio::-webkit-scrollbar-track,
-        .section::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .nav-container::-webkit-scrollbar-thumb,
-        .content-area::-webkit-scrollbar-thumb,
-        #inicio::-webkit-scrollbar-thumb,
-        .section::-webkit-scrollbar-thumb {
-            background: var(--neon-blue);
-            border-radius: 10px;
-            box-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .cursor-star {
-            position: absolute;
-            background: #fff;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1000002;
-            box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue);
-            animation: trailFade 0.7s linear forwards;
-        }
-
-        @keyframes trailFade {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0.2); opacity: 0; }
-        }
-
-        .copy-alert {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(5, 5, 5, 0.95);
-            border: 2px solid var(--neon-blue);
-            padding: 30px;
-            z-index: 10000;
-            text-align: center;
-            box-shadow: 0 0 50px var(--neon-blue);
-            border-radius: 10px;
-            min-width: 300px;
-        }
-
-        .copy-alert h3 {
-            margin: 0 0 10px 0;
-            background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: moveGradient 4s linear infinite;
-        }
-
-        .copy-alert p {
-            color: #ffffff;
+        .status-container {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: #fff;
             font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+        }
+
+        /* Indicador de luz */
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 12px;
+            transition: 0.4s;
+            box-shadow: 0 0 5px #ff0000;
+            background-color: #ff0000; /* Padrão Offline */
+        }
+
+        /* Classes de Estado */
+        .is-online {
+            border-color: rgba(0, 243, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .is-online .dot {
+            background-color: #00f3ff;
+            box-shadow: 0 0 10px #00f3ff, 0 0 20px #00f3ff;
+        }
+
+        .status-text {
             font-size: 14px;
+            color: #ff0000;
         }
 
-        #intro-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://i.imgur.com/4kRbv63.gif') center/cover no-repeat;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', sans-serif;
-            transition: opacity 1s ease, transform 1s ease, visibility 1s;
-            opacity: 1;
-            visibility: visible;
+        .is-online .status-text {
+            color: #00f3ff;
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
         }
-
-        .moldura-flutuante {
-            position: relative; /* Adicionado para posicionar o ponto de status */
-            width: 280px;
-            height: 280px;
-            border: 3px solid var(--neon-blue);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0 30px var(--neon-blue);
-            animation: float 3s ease-in-out infinite;
-            margin-bottom: 40px;
-            background: rgba(0,0,0,0.5);
-        }
-
-        .moldura-flutuante img { width: 100%; height: 100%; object-fit: contain; }
-
-        /* ESTILO DO BOTÃO ONLINE */
-        #status-dot {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 20px; 
-            height: 20px; 
-            border-radius: 50%; 
-            border: 3px solid white; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
-            transition: background-color 0.5s ease; 
-            background-color: #9e9e9e;
-            z-index: 10;
-        }
-
-        .btn-entrar, .btn-xat {
-            font-weight: bold; color: white; text-transform: uppercase; border: none; border-radius: 50px; cursor: pointer;
-            background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 300%; animation: moveGradient 4s linear infinite; box-shadow: 0 0 20px rgba(0, 72, 255, 0.6); transition: 0.3s; margin: 5px;
-        }
-
-        .btn-entrar { padding: 15px 60px; font-size: 20px; }
-        .btn-xat { padding: 8px 30px; font-size: 14px; }
-
-        .xat-submenu {
-            display: none; flex-direction: column; gap: 5px; margin-top: 10px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 10px; border: 1px solid var(--neon-blue);
-        }
-
-        .xat-link { color: white; text-decoration: none; font-size: 12px; font-weight: bold; padding: 5px 15px; border-radius: 5px; transition: 0.3s; cursor: pointer; }
-        .xat-link:hover { background: var(--neon-blue); }
-
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-
-        body {
-            background-image: url('https://i.imgur.com/iWVWXg2.gif'); background-attachment: fixed; background-size: cover; background-position: center;
-            color: white; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh;
-            -webkit-user-select: none; user-select: none;
-            overflow-x: hidden;
-        }
-
-        .perfil-header { text-align: center; padding: 20px; border-bottom: 2px solid var(--neon-blue); background: rgba(5, 5, 5, 0.5); z-index: 10; flex-shrink: 0; }
-        .perfil-header h1 {
-            font-size: 2.5rem; margin: 0; background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff);
-            background-size: 300%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 4s linear infinite;
-        }
-
-        .perfil-header p { font-weight: bold; text-transform: uppercase; background: linear-gradient(-45deg, #ffffff, #000000, #ffffff, #000000); background-size: 300%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 5s linear infinite; }
-
-        .main-wrapper { display: flex; flex: 1; overflow: hidden; position: relative; }
-
-        .nav-container {
-            display: flex; flex-direction: column; width: 250px; gap: 8px; padding: 15px; background: rgba(0, 0, 0, 0.4); border-right: 1px solid var(--neon-blue);
-            z-index: 20; overflow-y: auto; overflow-x: hidden; flex-shrink: 0; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); -webkit-overflow-scrolling: touch; touch-action: pan-y;
-        }
-
-        .nav-hidden .nav-container { transform: translateX(-100%); position: absolute; }
-
-        .nav-btn {
-            background: var(--deep-blue-bar); border: 1px solid rgba(0, 38, 138, 0.5); padding: 12px; cursor: pointer;
-            font-weight: bold; text-transform: uppercase; font-size: 15px; transition: all 0.3s ease; color: white; text-align: left; display: block; flex-shrink: 0;
-        }
-
-        .nav-btn:hover, .nav-btn.active { border-color: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); background: rgba(0, 72, 255, 0.3); transform: translateX(8px); }
-        .nav-btn span { background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 3s linear infinite; }
-
-        .content-area { flex: 1; padding: 30px; overflow-y: auto; overflow-x: hidden; z-index: 15; position: relative; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); -webkit-overflow-scrolling: touch; touch-action: pan-y; }
-
-        .btn-voltar { display: none; margin-bottom: 20px; padding: 10px 20px; font-size: 14px; background: var(--deep-blue-bar); border: 1px solid var(--neon-blue); color: white; cursor: pointer; text-transform: uppercase; font-weight: bold; border-radius: 4px; box-shadow: 0 0 10px var(--neon-blue); }
-        .nav-hidden .btn-voltar { display: inline-block; }
-
-        .section { display: none; width: 100%; overflow-x: hidden; }
-        .section.active { display: block; }
-        
-        #inicio, #gifs, #pcback-gif, #pstyle-gif, #pcback-est, #pstyle-est, #fundos, #player { 
-            max-height: 100%; 
-            overflow-y: auto; 
-            overflow-x: hidden;
-            padding-right: 5px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .grid-container { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-        .grid-gifs { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
-        
-        .card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); border-radius: 4px; overflow: hidden; text-align: center; cursor: zoom-in; transition: 0.3s; }
-        .card:hover { border-color: var(--neon-blue); transform: scale(1.05); box-shadow: 0 0 25px var(--neon-blue); background: rgba(17, 17, 17, 0.8); }
-        .card img { width: 100%; display: block; }
-        .card .label { padding: 8px 5px; font-size: 11px; background: rgba(10, 10, 10, 0.6); text-transform: uppercase; font-weight: bold; }
-
-        .info-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) {
-            .info-cards { grid-template-columns: 1fr; }
-            .info-card.full-width { grid-column: 1; }
-        }
-
-        .info-card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); padding: 20px; border-radius: 4px; transition: all 0.3s ease; word-wrap: break-word; }
-        .info-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); transform: scale(1.01); background: rgba(17, 17, 17, 0.7); }
-        .info-card.full-width { grid-column: 1 / span 2; }
-        .info-card h3 { margin-top: 0; text-transform: uppercase; background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 300%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 4s linear infinite; }
-
-        .marquee-container { background: var(--deep-blue-bar); border: 1px solid rgba(0, 38, 138, 0.5); width: 100%; overflow: hidden; margin-bottom: 20px; padding: 15px 0; position: relative; display: flex; align-items: center; }
-        .marquee-content { display: inline-block; white-space: nowrap; position: absolute; will-change: transform; animation: linear-scroll-inside 15s linear infinite; }
-        .texto-animado { font-weight: bold; font-size: 22px; background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 3s linear infinite; padding: 0 10px; }
-
-        @keyframes linear-scroll-inside { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        @keyframes moveGradient { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
-
-        .player-container { max-width: 400px; margin: 20px auto; background: var(--card-bg); border: 2px solid var(--neon-blue); border-radius: 8px; padding: 20px; box-shadow: 0 0 20px var(--neon-blue); text-align: center; position: relative; z-index: 10; }
-        .track-marquee { width: 100%; overflow: hidden; white-space: nowrap; background: rgba(0, 0, 0, 0.3); padding: 10px 0; margin-bottom: 20px; position: relative; height: 30px; display: flex; align-items: center; }
-        .track-name, .vol-label { display: inline-block; font-weight: bold; text-transform: uppercase; background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 3s linear infinite; }
-        .track-name { position: absolute; will-change: transform; animation: linear-scroll-inside 20s linear infinite, moveGradient 3s linear infinite; }
-
-        .modal { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); justify-content: center; align-items: center; }
-        .modal-content { max-width: 80%; max-height: 80%; border: 2px solid var(--neon-blue); }
-
-        #visit-counter { position: fixed; bottom: 20px; right: 20px; z-index: 1; background: rgba(5, 5, 5, 0.5); border: 1px solid var(--neon-blue); padding: 6px 12px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 15px var(--neon-blue); backdrop-filter: blur(2px); }
-        .exclusive-footer { margin-top: auto; padding-top: 15px; text-align: center; font-size: 9px; font-weight: bold; text-transform: uppercase; background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 3s linear infinite; }
     </style>
 </head>
-<body oncontextmenu="showAlert(); return false;">
+<body>
+
+    <div id="status-card" class="status-container">
+        <div id="status-dot" class="dot"></div>
+        <span id="status-text" class="status-text">Offline</span>
+    </div>
 
     <script>
-        document.addEventListener('mousemove', function(e) {
-            const star = document.createElement('div');
-            star.classList.add('cursor-star');
-            star.style.left = e.pageX + 'px'; star.style.top = e.pageY + 'px';
-            document.body.appendChild(star);
-            setTimeout(() => { star.remove(); }, 700);
+        const card = document.getElementById('status-card');
+        const text = document.getElementById('status-text');
+
+        // Função para mudar visualmente
+        function setStatus(online) {
+            if (online) {
+                card.classList.add('is-online');
+                text.innerText = 'Online';
+            } else {
+                card.classList.remove('is-online');
+                text.innerText = 'Offline';
+            }
+        }
+
+        // 1. Fica Online ao carregar a página
+        window.addEventListener('load', () => {
+            setStatus(true);
         });
 
-        function irPara(url) { window.open(url, '_blank'); }
-
-        // LÓGICA DO STATUS ONLINE DO XAT
-        async function updateStatus() {
-            try {
-                const res = await fetch('https://illuxat.com/api/online/Gabr');
-                const json = await res.json();
-                const dot = document.getElementById('status-dot');
-                const isOnline = json.data?.status?.toLowerCase() === 'online';
-                
-                if (isOnline) {
-                    dot.style.backgroundColor = "#22c55e"; // Verde
-                    dot.title = "Online no xat";
-                } else {
-                    dot.style.backgroundColor = "#ef4444"; // Vermelho
-                    dot.title = "Offline no xat";
-                }
-            } catch (e) {
-                console.error("Erro ao carregar status:", e);
-                document.getElementById('status-dot').style.backgroundColor = "#9e9e9e";
-            }
-        }
-        setInterval(updateStatus, 60000);
-    </script>
-
-    <div id="copyright-alert" class="copy-alert">
-        <h3>COPYRIGHT - ACESSO PROIBIDO</h3>
-        <p>Propriedade de Gabr (1777777)</p>
-    </div>
-
-    <div id="intro-screen">
-        <div class="moldura-flutuante">
-            <img src="https://i.imgur.com/hqDqtpe.gif">
-            <div id="status-dot" title="Verificando status..."></div>
-        </div>
-        <button class="btn-entrar" onclick="entrarGaleria()">Entrar</button>
-        <button class="btn-xat" onclick="toggleXatMenu()">Xat</button>
-        <div id="xat-menu" class="xat-submenu">
-            <div onclick="irPara('https://xat.com/Butecopremium')" class="xat-link">Xat Buteco</div>
-            <div onclick="irPara('https://xat.com/TUGA')" class="xat-link">Xat TUGA</div>
-            <div onclick="irPara('https://xat.com/trade')" class="xat-link">Xat Trade</div>
-        </div>
-    </div>
-
-    <div class="perfil-header">
-        <h1>GALERIA DE GIFS</h1>
-        <p>Gabr (1777777)</p>
-    </div>
-
-    <div class="main-wrapper" id="mainWrapper">
-        <div class="nav-container">
-            <button class="nav-btn active" onclick="showTab('inicio')"><span>Início</span></button>
-            <button class="nav-btn" onclick="showTab('gifs')"><span>GIFS</span></button>
-            <button class="nav-btn" onclick="showTab('pcback-gif')"><span>PCBACK GIFS</span></button>
-            <button class="nav-btn" onclick="showTab('pstyle-gif')"><span>PSTYLE GIFS</span></button>
-            <button class="nav-btn" onclick="showTab('pcback-est')"><span>PCBACK ESTÁTICO</span></button>
-            <button class="nav-btn" onclick="showTab('pstyle-est')"><span>PSTYLE ESTÁTICO</span></button>
-            <button class="nav-btn" onclick="showTab('fundos')"><span>FUNDOS</span></button>
-            <div class="nav-btn" onclick="irPara('https://gabr1777777.github.io/GaleriaXatspace/')"><span>XATSPACE</span></div>
-            <button class="nav-btn" onclick="showTab('player')"><span>Player</span></button>
-            <div class="exclusive-footer">Galeria exclusiva 2026 - By: Gabr (1777777)</div>
-        </div>
-
-        <div class="content-area">
-            <button class="btn-voltar" onclick="voltarMenu()">« Voltar para o Menu</button>
-            
-            <div id="inicio" class="section active">
-                <div class="info-cards">
-                    <div class="info-card"><h3>Sobre mim</h3><p>Vendo Gifs, Pcback, Pstyle e Fundos para XAT, DJ nas horas vagas - Married Mnna (1013) ❤️</p></div>
-                    <div class="info-card"><h3>Dicas</h3><p>Escolha um modelo, por exemplo After - 5 ou Canva - 4, me mande cor, nome e foto, se quiser adicionar alguma frase, me diz a frase que eu coloco</p></div>
-                    <div class="info-card full-width"><h3>Sell ID 10 Digts - 1k each (Never used)</h3><p id="ids-venda">(SOLD 1553333003), 1553333005, 1553333013, 1553333024, 1553333040, 1553333505, 1553333903, 1553333027, 1553333484, 1553333494, 1553333579, 1549200800, 1549200900, (SOLD 1549203020), 1553350006, 1553342014, 1480335366, 1484529437, 1484529434, 1484529671, 1480335587, 1480335597, 1484529675, 1480335580, 1484529908, 1553350001, 1553350006, 1553350010, 1553350019, 1553350022, 1553350080, 1553358001, 1553358004, 1549200788, 1549200822, 1549200844, 1557799002, 1553366005, 1549200844, 1553347776, 1529199110, 1529199070, 1529199294, 1529199883, 1533393277, 1533393300, 1533393338, 1533393573, 1533393580, 1529200133, 1529202490, 1529202505, 1529202530, 1529204010, 1533394241</p></div>
-                </div>
-            </div>
-
-            <div id="gifs" class="section"></div>
-            <div id="pcback-gif" class="section"><div class="grid-container" id="content-pcback-gif"></div></div>
-            <div id="pstyle-gif" class="section"><div class="grid-container" id="content-pstyle-gif"></div></div>
-            <div id="pcback-est" class="section"><div class="grid-container" id="content-pcback-est"></div></div>
-            <div id="pstyle-est" class="section"><div class="grid-container" id="content-pstyle-est"></div></div>
-            <div id="fundos" class="section"><div class="grid-container" id="content-fundos"></div></div>
-
-            <div id="player" class="section">
-                <div class="player-container">
-                    <div class="track-marquee"><span id="trackName" class="track-name">Selecione uma música...</span></div>
-                    <div style="display:flex; justify-content:center; align-items:center; gap:10px;">
-                        <button class="nav-btn" style="padding:10px" onclick="prevTrack()">«</button>
-                        <button class="nav-btn" style="padding:10px" id="playBtn" onclick="togglePlay()">▶</button>
-                        <button class="nav-btn" style="padding:10px" onclick="nextTrack()">»</button>
-                        <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                            <span class="vol-label" style="font-size: 10px;">Vol</span>
-                            <button class="nav-btn" style="padding:10px 5px; width:38px; text-align:center; font-size:11px;" id="volBtn" onclick="cycleVolume()">50%</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="visit-counter">
-        <span style="color: var(--neon-blue); font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Visitas</span>
-        <span id="count-number" style="color: #fff; font-size: 18px; font-family: monospace;">...</span>
-    </div>
-
-    <div id="modalZoom" class="modal" onclick="closeZoom()"><img class="modal-content" id="imgZoom"></div>
-
-    <script>
-        const ID_VISITAS = "galeria_wrs_2026_v2"; 
-        async function carregarContadores() {
-            try {
-                const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
-                const dataV = await resV.json();
-                document.getElementById('count-number').innerText = dataV.count || dataV.value;
-            } catch(e) { document.getElementById('count-number').innerText = "1"; }
-        }
-
-        function toggleXatMenu() {
-            const menu = document.getElementById('xat-menu');
-            menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function showAlert() {
-            const alertBox = document.getElementById('copyright-alert');
-            alertBox.style.display = 'block';
-            setTimeout(() => { alertBox.style.display = 'none'; }, 2500);
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83) || e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
-                showAlert(); e.preventDefault(); return false;
-            }
+        // 2. Fica Offline ao fechar a aba ou sair do xat
+        window.addEventListener('beforeunload', () => {
+            setStatus(false);
         });
 
-        const playlist = [
-            { name: "Alex Warren - Ordinary", url: "https://www.dropbox.com/scl/fi/lpcx92wv63wzcm6z56l7q/Alex-Warren-Ordinary.mp3?rlkey=pdxjo778t66ecrja08pfyij6k&st=zb53k17t&raw=1" },
-            { name: "Abraham-Mateo - BAI LALA", url: "https://dl.dropboxusercontent.com/scl/fi/gw8940zfvm60ul7malxox/Abraham-Mateo-BAI-LALA.mp3?rlkey=puytwnkxllb6tmz35htfr8tmh" },
-            { name: "Eminem - You dont know", url: "https://dl.dropboxusercontent.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo" },
-            { name: "The Sound of Silence – Rising to the Night", url: "https://dl.dropboxusercontent.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt" },
-            { name: "Desireless - Voyage Voyage", url: "https://dl.dropboxusercontent.com/scl/fi/cqqhzkv1ll1p09z7qgylp/Desireless-voyage-voyage.mp3?rlkey=hscvkehw7n7vvgi2im4rwhom7" }
-        ];
-
-        let currentTrack = 0; 
-        const audio = new Audio();
-        audio.volume = 0.5;
-
-        function cycleVolume() {
-            if (audio.volume === 0.0) { audio.volume = 0.5; document.getElementById('volBtn').innerText = "50%"; }
-            else if (audio.volume === 0.5) { audio.volume = 1.0; document.getElementById('volBtn').innerText = "100%"; }
-            else { audio.volume = 0.0; document.getElementById('volBtn').innerText = "0%"; }
-        }
-
-        function entrarGaleria() {
-            const intro = document.getElementById('intro-screen');
-            intro.style.opacity = '0'; intro.style.transform = 'scale(1.1)'; intro.style.visibility = 'hidden';
-            setTimeout(() => { intro.style.display = 'none'; carregarContadores(); }, 1000); 
-            togglePlay(); 
-        }
-
-        function showTab(id) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            const target = document.getElementById(id);
-            if (target) {
-                target.classList.add('active');
-                target.scrollTop = 0; 
-                document.querySelector('.content-area').scrollTop = 0;
+        // 3. Opcional: Fica Offline se você minimizar ou mudar de aba
+        // Se quiser que fique online mesmo em outra aba, apague as linhas abaixo
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                setStatus(false);
+            } else {
+                setStatus(true);
             }
-            if(window.event && window.event.currentTarget.tagName === 'BUTTON') {
-                window.event.currentTarget.classList.add('active');
-            }
-            if (window.innerWidth <= 768) { document.getElementById('mainWrapper').classList.add('nav-hidden'); }
-        }
-
-        function voltarMenu() { document.getElementById('mainWrapper').classList.remove('nav-hidden'); }
-        function loadTrack(i) { audio.src = playlist[i].url; document.getElementById('trackName').innerText = playlist[i].name; }
-        function togglePlay() { if(audio.paused) { if(!audio.src) loadTrack(currentTrack); audio.play().catch(e => {}); document.getElementById('playBtn').innerText='||'; } else { audio.pause(); document.getElementById('playBtn').innerText='▶'; } }
-        function nextTrack() { currentTrack=(currentTrack+1)%playlist.length; loadTrack(currentTrack); audio.play(); document.getElementById('playBtn').innerText='||'; }
-        function prevTrack() { currentTrack=(currentTrack-1+playlist.length)%playlist.length; loadTrack(currentTrack); audio.play(); document.getElementById('playBtn').innerText='||'; }
-        audio.onended = nextTrack;
-
-        function openZoom(src) { document.getElementById("imgZoom").src = src; document.getElementById("modalZoom").style.display = "flex"; }
-        function closeZoom() { document.getElementById("modalZoom").style.display = "none"; }
-
-        function render() {
-            updateStatus(); // Chamada inicial do status
-            const gifSec = document.getElementById('gifs');
-            const dataGifs = [
-                { marquee: "Blufftitler - Only Name - 250 Xats", prefix: "Name - ", ids: ["bidwh1D", "wR2NpTV", "IMrOUcP", "Hdi04Sg", "OcGaTXA", "wJZiwkG", "jDgxhBQ", "USQgVk8", "4bhAWa5", "0LL3muu"] },
-                { marquee: "Blufftitler - Nome + Photo - 350 Xats", prefix: "Bluff - ", ids: ["F0b4mnJ", "65bzz5V", "ZetkVFF", "JqzxOwt", "NK9Z8rU", "RNIlFI3", "bSmUjsQ", "R6klF5K", "cgyGLHQ", "ctF1vyH", "Ge90Xy7", "7Z8xEC8", "G8HFkiG", "sh7u3UM", "y0WgmxJ", "Vvw2SMU", "uoNJlEe"] },
-                { marquee: "Canva Name + Photo - 300 Xats", prefix: "Canva - ", ids: ["hWVyLox", "Uxlzu5C", "Crt716T", "xo4npxf", "jUG54d4", "gMQ3Fo9", "xvM1ixb", "cwRIh51", "db8sdi9", "nRJQ0BB"] },
-                { marquee: "AfterEffects - Name + Photo - 400 Xats", prefix: "After - ", ids: ["S5pXaVI", "qQB5w4C", "QlniJvg", "shyBpPS", "LzTvWk4", "aLBEkKq", "kJmAoul", "uOwOmwM", "u0Cse5Q", "ioDaClP", "PD03EYd", "HVFwoO9", "ueBRxvV", "XkwoKCf", "ULcq67R", "afxBCK8", "NKjJIGs", "xDhKvCC", "vvcOaEK", "ups9FgX", "JeY6A7M", "zDyoEgZ", "0FklDw9", "FX6gdFw", "V3LO0YG", "r9yfJNZ", "R3sO6Dv", "P8DpN4L", "fRfZuO7", "BPgPihm", "5HxfNaB", "FILAVQP", "5IoR515", "KUQ1WsX", "ZuaO9n5", "eYUpRds", "EkhA4lw", "ufOP9QG", "w2URYst", "1uMiE0k", "JQaMJ7U", "JeVcLkk", "un368jG", "LaClQL2", "l3Az3Nz", "8ME12WB", "SWSOcvf", "HizA7mV", "HnIaNDX", "bStEaxn", "CgwrMHf", "MtDrchh", "P4UINMY", "F0ujERT", "lHdM40L", "vWKX5Fb", "UHq0679", "2tRaU1S", "XQJ8R9h", "n4sAIhn", "LaJAK5L", "RIDkkSc", "ogHzac1", "aV63fjn", "tSuJOKg", "MxeKAfQ", "A4chzU3", "bAXpFow", "1YlDoNZ", "IXCqwlR", "kv1EWDW", "FIulKIF", "qLhMZAE", "R9nl6Ch", "A7x7PhX"] },
-                { marquee: "AfterEffects - Name + (2) Photo - 500 Xats", prefix: "Love - ", ids: ["NnEIlrv", "8hrgq1D", "MqnmO8R", "oRvL0X3", "9z2OuGk"] },
-                { marquee: "AfterEffects - DJ - Name + Photo 450 Xats", prefix: "DJ - ", ids: ["Bj6WFKZ", "GGrjZnE", "jJefFUv", "tesP8Me", "VRBqDtS", "WnnPvsU"] },
-                { marquee: "PhotoScape - (1) Photo - 100 Xats", prefix: "Parpadeo - ", ids: ["bXTTG5V", "MdemxH0", "VpU6eOY", "NUIGQ3f", "NP25oCb", "mXHqKwc", "bKcj9xf"] }
-            ];
-
-            gifSec.innerHTML = "";
-            dataGifs.forEach(sec => {
-                let h = `<div class="marquee-container"><div class="marquee-content"><span class="texto-animado">${sec.marquee}</span></div></div><div class="grid-gifs">`;
-                sec.ids.forEach((id, i) => { h += `<div class="card" onclick="openZoom('https://i.imgur.com/${id}.gif')"><img src="https://i.imgur.com/${id}.gif"><div class="label">${sec.prefix}${i+1}</div></div>`; });
-                h += `</div>`; gifSec.innerHTML += h;
-            });
-            const configs = [
-                { id: 'content-pcback-gif', urls: ['SFnk7A6.gif', 'KKY2zqU.gif', 'fmhynyY.gif', '28xDTg0.gif', '9R35WMu.gif', 'kSK0E1f.gif', 'l2y5xFa.gif', 'ZDbAiNK.gif', 'fRmpR5e.gif', 'TUdO2r8.gif', 'clgE48o.gif', 'gWgkiku.gif', 'vS55bUO.gif'], label: 'PCBack Gif' },
-                { id: 'content-pstyle-gif', urls: ['rUIzfWU.gif', 'dGfJDfh.gif', 'ZXBA6F1.gif', 'dImC226.gif', '4P6kTS6.gif', 'E6fZa1k.gif', 'iaCw0P8.gif', '3mC3Qgh.gif', 'jSyWPEs.gif', 'vLnBaqA.gif', 'LmDTRY5.gif', 'PhxEvbL.gif'], label: 'PStyle Gif' },
-                { id: 'content-pcback-est', urls: ['OyX4Jwt.png', 'dbSy2Rf.png', 'uBp1ypU.png', '83Glu7j.png', 'QtSYA09.png', 'WDKosnm.png', 'WfVIivT.png', 'ojcJMIb.png', 'Dn05p8R.png', '5iJRrrF.png', 'uBp1ypU.png'], label: 'Pcback' },
-                { id: 'content-pstyle-est', urls: ['Ii4pk4g.png', 'm2Ew85b.png', 'zlcL7Dh.png'], label: 'Pstyle' },
-                { id: 'content-fundos', urls: ['eJtGG3D.png', 'Q8XwtQZ.png', '6phSrhR.png', 'yeQZf5S.png', 'RDsR3k5.png', 'EXCVWDO.png', 'umcaiMq.png', 'hzjUj8q.png', 'zQj5X8P.png', 'OojsaCj.png'], label: 'FUNDO' }
-            ];
-            
-            configs.forEach(c => {
-                const el = document.getElementById(c.id);
-                if (el) {
-                    el.innerHTML = "";
-                    c.urls.forEach((imgId, index) => {
-                        const fullUrl = `https://i.imgur.com/${imgId}`;
-                        el.innerHTML += `<div class="card" onclick="openZoom('${fullUrl}')"><img src="${fullUrl}"><div class="label">${c.label} - ${index + 1}</div></div>`;
-                    });
-                }
-            });
-        }
-        window.onload = render;
+        });
     </script>
 </body>
 </html>
