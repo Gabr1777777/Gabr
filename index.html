@@ -18,7 +18,7 @@
             overscroll-behavior-y: contain; 
         }
 
-        /* BARRA DE ROLAGEM */
+        /* BARRA DE ROLAGEM CUSTOMIZADA */
         .nav-container::-webkit-scrollbar,
         .content-area::-webkit-scrollbar,
         #inicio::-webkit-scrollbar,
@@ -43,6 +43,7 @@
             box-shadow: 0 0 10px var(--neon-blue);
         }
 
+        /* EFEITO DE ESTRELAS NO MOUSE */
         .cursor-star {
             position: absolute;
             background: #fff;
@@ -60,6 +61,7 @@
             100% { transform: scale(0.2); opacity: 0; }
         }
 
+        /* ALERTA DE COPYRIGHT */
         .copy-alert {
             display: none;
             position: fixed;
@@ -88,6 +90,7 @@
 
         .copy-alert p { color: #ffffff; font-weight: bold; text-transform: uppercase; font-size: 14px; }
 
+        /* TELA DE INTRO */
         #intro-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://i.imgur.com/4kRbv63.gif') center/cover no-repeat;
@@ -103,9 +106,12 @@
 
         .moldura-flutuante img { width: 100%; height: 100%; object-fit: contain; }
 
+        /* STATUS DOT (SISTEMA QUE VOCÊ ENVIOU) */
         #status-dot {
-            position: absolute; bottom: 15px; right: 15px; width: 22px; height: 22px;
-            border-radius: 50%; border: 3px solid white; transition: 0.5s; background-color: #9e9e9e; z-index: 10;
+            position: absolute; bottom: 15px; right: 15px; width: 20px; height: 20px;
+            border-radius: 50%; border: 3px solid white; transition: 0.5s ease; 
+            background-color: #9e9e9e; z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .btn-entrar, .btn-xat {
@@ -127,6 +133,7 @@
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
         @keyframes moveGradient { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
 
+        /* ESTRUTURA PRINCIPAL */
         body {
             background-image: url('https://i.imgur.com/iWVWXg2.gif'); background-attachment: fixed; background-size: cover; background-position: center;
             color: white; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh;
@@ -148,8 +155,6 @@
             z-index: 20; overflow-y: auto; flex-shrink: 0; transition: 0.5s;
         }
 
-        .nav-hidden .nav-container { transform: translateX(-100%); position: absolute; }
-
         .nav-btn {
             background: var(--deep-blue-bar); border: 1px solid rgba(0, 38, 138, 0.5); padding: 12px; cursor: pointer;
             font-weight: bold; text-transform: uppercase; font-size: 15px; transition: 0.3s; color: white; text-align: left; display: block;
@@ -160,14 +165,11 @@
 
         .content-area { flex: 1; padding: 30px; overflow-y: auto; z-index: 15; position: relative; transition: 0.5s; }
 
-        .btn-voltar { display: none; margin-bottom: 20px; padding: 10px 20px; font-size: 14px; background: var(--deep-blue-bar); border: 1px solid var(--neon-blue); color: white; cursor: pointer; text-transform: uppercase; font-weight: bold; border-radius: 4px; box-shadow: 0 0 10px var(--neon-blue); }
-        .nav-hidden .btn-voltar { display: inline-block; }
-
         .section { display: none; width: 100%; }
         .section.active { display: block; }
         
-        .grid-container { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-        .grid-gifs { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+        .grid-container, .grid-gifs { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+        .grid-gifs { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
         
         .card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); border-radius: 4px; overflow: hidden; text-align: center; cursor: zoom-in; transition: 0.3s; }
         .card:hover { border-color: var(--neon-blue); transform: scale(1.05); box-shadow: 0 0 25px var(--neon-blue); background: rgba(17, 17, 17, 0.8); }
@@ -175,8 +177,7 @@
         .card .label { padding: 8px 5px; font-size: 11px; background: rgba(10, 10, 10, 0.6); text-transform: uppercase; font-weight: bold; }
 
         .info-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .info-card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); padding: 20px; border-radius: 4px; transition: 0.3s; }
-        .info-card:hover { border-color: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); background: rgba(17, 17, 17, 0.7); }
+        .info-card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); padding: 20px; border-radius: 4px; }
         .info-card.full-width { grid-column: 1 / span 2; }
         .info-card h3 { margin-top: 0; text-transform: uppercase; background: linear-gradient(-45deg, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 300%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 4s linear infinite; }
 
@@ -186,11 +187,6 @@
 
         @keyframes linear-scroll-inside { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .player-container { max-width: 400px; margin: 20px auto; background: var(--card-bg); border: 2px solid var(--neon-blue); border-radius: 8px; padding: 20px; box-shadow: 0 0 20px var(--neon-blue); text-align: center; }
-        .track-marquee { width: 100%; overflow: hidden; white-space: nowrap; background: rgba(0, 0, 0, 0.3); padding: 10px 0; margin-bottom: 20px; position: relative; height: 30px; display: flex; align-items: center; }
-        .track-name, .vol-label { font-weight: bold; text-transform: uppercase; background: linear-gradient(to right, #0048FF, #ffffff, #0048FF, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: moveGradient 3s linear infinite; }
-        .track-name { position: absolute; animation: linear-scroll-inside 20s linear infinite; }
-
         .modal { display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); justify-content: center; align-items: center; }
         .modal-content { max-width: 80%; max-height: 80%; border: 2px solid var(--neon-blue); }
 
@@ -198,41 +194,6 @@
     </style>
 </head>
 <body oncontextmenu="showAlert(); return false;">
-
-    <script>
-        document.addEventListener('mousemove', function(e) {
-            const star = document.createElement('div');
-            star.classList.add('cursor-star');
-            star.style.left = e.pageX + 'px'; star.style.top = e.pageY + 'px';
-            document.body.appendChild(star);
-            setTimeout(() => { star.remove(); }, 700);
-        });
-
-        async function updateStatus() {
-            try {
-                // Adicionado timestamp (?t=) para forçar a API a mandar o status real sem cache
-                const res = await fetch('https://illuxat.com/api/online/Gabr?t=' + Date.now());
-                const json = await res.json();
-                const dot = document.getElementById('status-dot');
-                const status = json.data?.status?.toLowerCase();
-                const isOnline = status === 'online' || status === 'on';
-                
-                if (isOnline) {
-                    dot.style.backgroundColor = "#22c55e"; 
-                    dot.style.boxShadow = "0 0 15px #22c55e";
-                    dot.title = "Online no xat";
-                } else {
-                    dot.style.backgroundColor = "#ef4444"; 
-                    dot.style.boxShadow = "0 0 5px #ef4444";
-                    dot.title = "Offline no xat";
-                }
-            } catch (e) {
-                console.error("Erro no status:", e);
-                document.getElementById('status-dot').style.backgroundColor = "#9e9e9e";
-            }
-        }
-        setInterval(updateStatus, 30000); // Atualiza a cada 30 segundos
-    </script>
 
     <div id="copyright-alert" class="copy-alert">
         <h3>COPYRIGHT - ACESSO PROIBIDO</h3>
@@ -242,7 +203,7 @@
     <div id="intro-screen">
         <div class="moldura-flutuante">
             <img src="https://i.imgur.com/hqDqtpe.gif">
-            <div id="status-dot"></div>
+            <div id="status-dot" title="Verificando status..."></div>
         </div>
         <button class="btn-entrar" onclick="entrarGaleria()">Entrar</button>
         <button class="btn-xat" onclick="toggleXatMenu()">Xat</button>
@@ -268,13 +229,10 @@
             <button class="nav-btn" onclick="showTab('pstyle-est')"><span>PSTYLE ESTÁTICO</span></button>
             <button class="nav-btn" onclick="showTab('fundos')"><span>FUNDOS</span></button>
             <div class="nav-btn" onclick="window.open('https://gabr1777777.github.io/GaleriaXatspace/', '_blank')"><span>XATSPACE</span></div>
-            <button class="nav-btn" onclick="showTab('player')"><span>Player</span></button>
             <div class="exclusive-footer">Galeria exclusiva 2026 - By: Gabr (1777777)</div>
         </div>
 
         <div class="content-area">
-            <button class="btn-voltar" onclick="voltarMenu()">« Voltar para o Menu</button>
-            
             <div id="inicio" class="section active">
                 <div class="info-cards">
                     <div class="info-card"><h3>Sobre mim</h3><p>Vendo Gifs, Pcback, Pstyle e Fundos para XAT, DJ nas horas vagas - Married Mnna (1013) ❤️</p></div>
@@ -289,28 +247,50 @@
             <div id="pcback-est" class="section"></div>
             <div id="pstyle-est" class="section"></div>
             <div id="fundos" class="section"></div>
-
-            <div id="player" class="section">
-                <div class="player-container">
-                    <div class="track-marquee"><span id="trackName" class="track-name">Selecione uma música...</span></div>
-                    <div style="display:flex; justify-content:center; align-items:center; gap:10px;">
-                        <button class="nav-btn" style="padding:10px" onclick="prevTrack()">«</button>
-                        <button class="nav-btn" style="padding:10px" id="playBtn" onclick="togglePlay()">▶</button>
-                        <button class="nav-btn" style="padding:10px" onclick="nextTrack()">»</button>
-                        <button class="nav-btn" style="padding:10px 5px; width:45px; text-align:center; font-size:11px;" id="volBtn" onclick="cycleVolume()">50%</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
     <div id="modalZoom" class="modal" onclick="closeZoom()"><img class="modal-content" id="imgZoom"></div>
 
     <script>
-        function toggleXatMenu() {
-            const menu = document.getElementById('xat-menu');
-            menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+        // LÓGICA DE STATUS ONLINE (SUA VERSÃO ATUALIZADA)
+        async function updateStatus() {
+            try {
+                // Consulta a API do xat para o usuário 'Gabr' com timestamp para evitar cache
+                const res = await fetch('https://illuxat.com/api/online/Gabr?t=' + Date.now());
+                const json = await res.json();
+                const dot = document.getElementById('status-dot');
+                
+                // Verifica se o status retornado é 'online'
+                const isOnline = json.data?.status?.toLowerCase() === 'online';
+                
+                if (isOnline) {
+                    dot.style.backgroundColor = "#22c55e"; // Verde (Online)
+                    dot.style.boxShadow = "0 0 15px #22c55e";
+                    dot.title = "Online no xat";
+                } else {
+                    dot.style.backgroundColor = "#ef4444"; // Vermelho (Offline)
+                    dot.style.boxShadow = "0 0 5px #ef4444";
+                    dot.title = "Offline no xat";
+                }
+            } catch (e) {
+                console.error("Erro ao carregar status:", e);
+                document.getElementById('status-dot').style.backgroundColor = "#9e9e9e";
+            }
         }
+
+        // Inicia o status e define o intervalo de 60 segundos
+        updateStatus();
+        setInterval(updateStatus, 60000);
+
+        // EFEITOS DE MOUSE E ALERTAS
+        document.addEventListener('mousemove', function(e) {
+            const star = document.createElement('div');
+            star.classList.add('cursor-star');
+            star.style.left = e.pageX + 'px'; star.style.top = e.pageY + 'px';
+            document.body.appendChild(star);
+            setTimeout(() => { star.remove(); }, 700);
+        });
 
         function showAlert() {
             const alertBox = document.getElementById('copyright-alert');
@@ -324,29 +304,11 @@
             }
         });
 
-        const playlist = [
-            { name: "Alex Warren - Ordinary", url: "https://www.dropbox.com/scl/fi/lpcx92wv63wzcm6z56l7q/Alex-Warren-Ordinary.mp3?rlkey=pdxjo778t66ecrja08pfyij6k&st=zb53k17t&raw=1" },
-            { name: "Abraham-Mateo - BAI LALA", url: "https://dl.dropboxusercontent.com/scl/fi/gw8940zfvm60ul7malxox/Abraham-Mateo-BAI-LALA.mp3?rlkey=puytwnkxllb6tmz35htfr8tmh" },
-            { name: "Eminem - You dont know", url: "https://dl.dropboxusercontent.com/scl/fi/4y0lc0fi24e9yavn17psv/Eminem-you-dont-know.mp3?rlkey=zicb6spgqe3pv0gqnz3xc24zo" },
-            { name: "The Sound of Silence – Rising to the Night", url: "https://dl.dropboxusercontent.com/scl/fi/2y9zhx5zjsdxg3zljc2f9/sound-of-silence.mp3?rlkey=88zg0td3loy40uxmcm9rnk1jt" },
-            { name: "Desireless - Voyage Voyage", url: "https://dl.dropboxusercontent.com/scl/fi/cqqhzkv1ll1p09z7qgylp/Desireless-voyage-voyage.mp3?rlkey=hscvkehw7n7vvgi2im4rwhom7" }
-        ];
-
-        let currentTrack = 0; 
-        const audio = new Audio();
-        audio.volume = 0.5;
-
-        function cycleVolume() {
-            if (audio.volume === 0.0) { audio.volume = 0.5; document.getElementById('volBtn').innerText = "50%"; }
-            else if (audio.volume === 0.5) { audio.volume = 1.0; document.getElementById('volBtn').innerText = "100%"; }
-            else { audio.volume = 0.0; document.getElementById('volBtn').innerText = "0%"; }
-        }
-
+        // NAVEGAÇÃO
         function entrarGaleria() {
             const intro = document.getElementById('intro-screen');
             intro.style.opacity = '0'; intro.style.visibility = 'hidden';
             setTimeout(() => { intro.style.display = 'none'; }, 1000); 
-            togglePlay(); 
         }
 
         function showTab(id) {
@@ -354,25 +316,21 @@
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             const target = document.getElementById(id);
             if (target) { target.classList.add('active'); }
-            if (window.innerWidth <= 768) { document.getElementById('mainWrapper').classList.add('nav-hidden'); }
         }
 
-        function voltarMenu() { document.getElementById('mainWrapper').classList.remove('nav-hidden'); }
-        function loadTrack(i) { audio.src = playlist[i].url; document.getElementById('trackName').innerText = playlist[i].name; }
-        function togglePlay() { if(audio.paused) { if(!audio.src) loadTrack(currentTrack); audio.play().catch(e => {}); document.getElementById('playBtn').innerText='||'; } else { audio.pause(); document.getElementById('playBtn').innerText='▶'; } }
-        function nextTrack() { currentTrack=(currentTrack+1)%playlist.length; loadTrack(currentTrack); audio.play(); }
-        function prevTrack() { currentTrack=(currentTrack-1+playlist.length)%playlist.length; loadTrack(currentTrack); audio.play(); }
-        audio.onended = nextTrack;
+        function toggleXatMenu() {
+            const menu = document.getElementById('xat-menu');
+            menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+        }
 
         function openZoom(src) { document.getElementById("imgZoom").src = src; document.getElementById("modalZoom").style.display = "flex"; }
         function closeZoom() { document.getElementById("modalZoom").style.display = "none"; }
 
+        // RENDERIZAÇÃO DOS GIFS E PRODUTOS
         function render() {
-            updateStatus();
             const gifSec = document.getElementById('gifs');
             const dataGifs = [
                 { marquee: "✧ Blufftitler - Only Name - 250 Xats ✧", prefix: "Name - ", ids: ["bidwh1D", "wR2NpTV", "IMrOUcP", "Hdi04Sg", "OcGaTXA", "wJZiwkG", "jDgxhBQ", "USQgVk8", "4bhAWa5", "0LL3muu"] },
-                { marquee: "✧ Blufftitler - Nome + Photo - 350 Xats ✧", prefix: "Bluff - ", ids: ["F0b4mnJ", "65bzz5V", "ZetkVFF", "JqzxOwt", "NK9Z8rU", "RNIlFI3", "bSmUjsQ", "R6klF5K", "cgyGLHQ", "ctF1vyH", "Ge90Xy7", "7Z8xEC8", "G8HFkiG", "sh7u3UM", "y0WgmxJ", "Vvw2SMU", "uoNJlEe"] },
                 { marquee: "✧ AfterEffects - Name + Photo - 400 Xats ✧", prefix: "After - ", ids: ["S5pXaVI", "qQB5w4C", "QlniJvg", "kJmAoul", "uOwOmwM", "u0Cse5Q", "ioDaClP", "PD03EYd", "HVFwoO9", "ueBRxvV", "XkwoKCf", "ULcq67R", "afxBCK8", "NKjJIGs", "xDhKvCC", "vvcOaEK", "ups9FgX", "JeY6A7M", "zDyoEgZ", "0FklDw9", "FX6gdFw", "V3LO0YG", "r9yfJNZ", "R3sO6Dv", "P8DpN4L", "fRfZuO7", "BPgPihm", "5HxfNaB", "FILAVQP", "5IoR515", "KUQ1WsX", "ZuaO9n5", "eYUpRds", "EkhA4lw", "ufOP9QG", "w2URYst", "1uMiE0k", "JQaMJ7U", "JeVcLkk", "un368jG", "LaClQL2", "l3Az3Nz", "8ME12WB", "SWSOcvf", "HizA7mV", "HnIaNDX", "bStEaxn", "CgwrMHf", "MtDrchh", "P4UINMY", "F0ujERT", "lHdM40L", "vWKX5Fb", "UHq0679", "2tRaU1S", "XQJ8R9h", "n4sAIhn", "LaJAK5L", "RIDkkSc", "ogHzac1", "aV63fjn", "tSuJOKg", "MxeKAfQ", "A4chzU3", "bAXpFow", "d1wToYT", "IXCqwlR", "kv1EWDW", "FIulKIF", "qLhMZAE", "R9nl6Ch", "A7x7PhX", "XU4klcy", "DRUBV0y", "geacP52", "lNh2rdL", "rS3PItx", "AzuyKg4", "aT6Rk4H", "0uZHgJW", "cyLfXAp", "omfCtkk", "lbauLSs", "s1rQrgg", "WNwfYTh", "XO8NzcJ", "6orVlLG", "Ocbami8", "oiVshBX", "bIP35gN", "Lwk0DWm", "N0FdNiy", "R7sOEoQ", "jrQMS1Q", "DA0VYtJ", "k21g4fQ"] }
             ];
 
