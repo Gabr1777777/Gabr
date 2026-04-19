@@ -36,7 +36,7 @@
         }
         @keyframes trailFade { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0.2); opacity: 0; } }
 
-        /* BARRA DE LETREIRO PRETA (ESTILO PRINT) */
+        /* BARRA DE LETREIRO PRETA */
         .marquee-container-new {
             background: #000;
             width: 100%;
@@ -103,19 +103,16 @@
         .section { display: none; }
         .section.active { display: block; }
 
-        /* GRID DE PRODUTOS */
         .grid-container { display: grid; gap: 15px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); padding: 10px 0; }
         .card { background: var(--card-bg); border: 1px solid #222; border-radius: 4px; overflow: hidden; cursor: zoom-in; transition: 0.3s; }
         .card:hover { border-color: var(--neon-blue); transform: translateY(-5px); box-shadow: 0 0 20px var(--neon-blue); }
         .card img { width: 100%; display: block; }
         .card .label { padding: 6px; font-size: 11px; text-align: center; background: rgba(0,0,0,0.8); font-weight: bold; }
 
-        /* INTRO SCREEN */
         #intro-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://i.imgur.com/4kRbv63.gif') center/cover; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1s; }
         .moldura-flutuante { position: relative; width: 260px; height: 260px; border: 3px solid var(--neon-blue); border-radius: 15px; box-shadow: 0 0 30px var(--neon-blue); animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-        /* ZOOM MODAL */
         #modalZoom { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; }
     </style>
 </head>
@@ -165,7 +162,6 @@
     </div>
 
     <script>
-        // CURSOR
         document.addEventListener('mousemove', e => {
             const s = document.createElement('div'); s.className = 'cursor-star';
             s.style.left = e.pageX+'px'; s.style.top = e.pageY+'px';
@@ -193,48 +189,38 @@
         function render() {
             const configs = [
                 { 
-                    id: 'pcback-gif', 
-                    marquee: "✧ Pcback Gif - 450 Xats ✧", 
-                    label: "PCBack Gif", 
+                    id: 'pcback-gif', marquee: "✧ Pcback Gif - 450 Xats ✧", label: "PCBack Gif", 
                     urls: [
-                        'SFnk7A6.gif', 'KKY2zqU.gif', 'fmhynyY.gif', '28xDTg0.gif', '9R35WMu.gif', 'kSK0E1f.gif', 'l2y5xFa.gif', 'ZDbAiNK.gif', 'fRmpR5e.gif', 'TUdO2r8.gif', // 10
-                        'clgE48o.gif', 'gWgkiku.gif', 'vS55bUO.gif', 'Xib4qKf.gif', 'pcGjNGM.gif', 'n4JMxfr.gif', 'XrJTb1e.gif', 'dyvcHuK.gif', 'l8jI2ia.gif', 'UlnuUQG.gif', // 20
+                        'SFnk7A6.gif', 'KKY2zqU.gif', 'fmhynyY.gif', '28xDTg0.gif', '9R35WMu.gif', 'kSK0E1f.gif', 'l2y5xFa.gif', 'ZDbAiNK.gif', 'fRmpR5e.gif', 'TUdO2r8.gif',
+                        'clgE48o.gif', 'gWgkiku.gif', 'vS55bUO.gif', 'Xib4qKf.gif', 'pcGjNGM.gif', 'n4JMxfr.gif', 'XrJTb1e.gif', 'dyvcHuK.gif', 'l8jI2ia.gif', 'UlnuUQG.gif',
                         'opekB2r.gif'
                     ] 
                 },
                 { 
-                    id: 'pstyle-gif', 
-                    marquee: "✧ Pstyle Gif - 350 Xats ✧", 
-                    label: "Pstyle Gif", 
+                    id: 'pstyle-gif', marquee: "✧ Pstyle Gif - 350 Xats ✧", label: "Pstyle Gif", 
                     urls: [
-                        'rUIzfWU.gif', 'dGfJDfh.gif', 'ZXBA6F1.gif', 'dImC226.gif', '4P6kTS6.gif', 'E6fZa1k.gif', 'iaCw0P8.gif', '3mC3Qgh.gif', 'jSyWPEs.gif', 'vLnBaqA.gif', // 10
-                        'LmDTRY5.gif', 'PhxEvbL.gif', '1pMwbMm.gif', '7KedrNM.gif', 'yqLPTKa.gif', 'FoW5FXN.gif', 'vWDVot8.gif', 'RJHbbfm.gif' // 18
+                        'rUIzfWU.gif', 'dGfJDfh.gif', 'ZXBA6F1.gif', 'dImC226.gif', '4P6kTS6.gif', 'E6fZa1k.gif', 'iaCw0P8.gif', '3mC3Qgh.gif', 'jSyWPEs.gif', 'vLnBaqA.gif',
+                        'LmDTRY5.gif', 'PhxEvbL.gif', '1pMwbMm.gif', '7KedrNM.gif', 'yqLPTKa.gif', 'FoW5FXN.gif', 'vWDVot8.gif', 'RJHbbfm.gif'
                     ] 
                 },
                 { 
-                    id: 'pcback-est', 
-                    marquee: "✧ Pcback Estático - 300 Xats ✧", 
-                    label: "PCBack", 
+                    id: 'pcback-est', marquee: "✧ Pcback Estático - 300 Xats ✧", label: "PCBack", 
                     urls: [
-                        'OyX4Jwt.png', 'dbSy2Rf.png', 'uBp1ypU.png', '83Glu7j.png', 'QtSYA09.png', 'WDKosnm.png', 'WfVIivT.png', 'ojcJMIb.png', 'Dn05p8R.png', '5iJRrrF.png', // 10
-                        'uBp1ypU.png', '98FssR8.png' // 12
+                        'OyX4Jwt.png', 'dbSy2Rf.png', 'uBp1ypU.png', '83Glu7j.png', 'QtSYA09.png', 'WDKosnm.png', 'WfVIivT.png', 'ojcJMIb.png', 'Dn05p8R.png', '5iJRrrF.png',
+                        'uBp1ypU.png', '98FssR8.png'
                     ] 
                 },
                 { 
-                    id: 'pstyle-est', 
-                    marquee: "✧ Pstyle Estático - 250 Xats ✧", 
-                    label: "Pstyle", 
+                    id: 'pstyle-est', marquee: "✧ Pstyle Estático - 250 Xats ✧", label: "Pstyle", 
                     urls: [
-                        'Ii4pk4g.png', 'm2Ew85b.png', 'zlcL7Dh.png' // 3
+                        'Ii4pk4g.png', 'm2Ew85b.png', 'zlcL7Dh.png'
                     ] 
                 },
                 { 
-                    id: 'fundos', 
-                    marquee: "✧ Fundos - 500 Xats ✧", 
-                    label: "FUNDO", 
+                    id: 'fundos', marquee: "✧ Fundos - 500 Xats ✧", label: "FUNDO", 
                     urls: [
-                        'eJtGG3D.png', 'Q8XwtQZ.png', '6phSrhR.png', 'yeQZf5S.png', 'RDsR3k5.png', 'EXCVWDO.png', 'umcaiMq.png', 'hzjUj8q.png', 'zQj5X8P.png', 'OojsaCj.png', // 10
-                        'EHK0Ik0.png', 'sSfzBLf.png', 'J6tAgOm.png', 'hqxUYUr.png' // 14
+                        'eJtGG3D.png', 'Q8XwtQZ.png', '6phSrhR.png', 'yeQZf5S.png', 'RDsR3k5.png', 'EXCVWDO.png', 'umcaiMq.png', 'hzjUj8q.png', 'zQj5X8P.png', 'OojsaCj.png',
+                        'EHK0Ik0.png', 'sSfzBLf.png', 'J6tAgOm.png', 'hqxUYUr.png'
                     ] 
                 }
             ];
@@ -242,44 +228,27 @@
             configs.forEach(c => {
                 const target = document.getElementById(c.id);
                 if (target) {
-                    let html = `
-                        <div class="marquee-container-new">
-                            <div class="marquee-inner-new">
-                                <span class="marquee-text-new">✧ ${c.marquee} ✧</span>
-                                <span class="marquee-text-new">✧ ${c.marquee} ✧</span>
-                                <span class="marquee-text-new">✧ ${c.marquee} ✧</span>
-                            </div>
-                        </div>
-                        <div class="grid-container">`;
-                    
+                    let html = `<div class="marquee-container-new"><div class="marquee-inner-new">
+                                <span class="marquee-text-new">${c.marquee}</span>
+                                <span class="marquee-text-new">${c.marquee}</span>
+                                <span class="marquee-text-new">${c.marquee}</span>
+                                </div></div><div class="grid-container">`;
                     c.urls.forEach((img, i) => {
-                        html += `
-                            <div class="card" onclick="openZoom('https://i.imgur.com/${img}')">
-                                <img src="https://i.imgur.com/${img}">
-                                <div class="label">${c.label} - ${i+1}</div>
-                            </div>`;
+                        html += `<div class="card" onclick="openZoom('https://i.imgur.com/${img}')">
+                                 <img src="https://i.imgur.com/${img}"><div class="label">${c.label} - ${i+1}</div></div>`;
                     });
-                    html += `</div>`;
-                    target.innerHTML = html;
+                    target.innerHTML = html + `</div>`;
                 }
             });
 
             // GIFS ESPECIAIS
             const gifSec = document.getElementById('gifs');
             const specialData = [
-                { 
-                    marquee: "✧ Blufftitler - Only Name - 250 Xats ✧", 
-                    prefix: "Name", 
-                    ids: [
-                        "bidwh1D", "wR2NpTV", "IMrOUcP", "Hdi04Sg", "OcGaTXA", "wJZiwkG", "jDgxhBQ", "USQgVk8", "4bhAWa5", "0LL3muu" // 10
-                    ] 
+                { marquee: "✧ Blufftitler - Only Name - 250 Xats ✧", prefix: "Name", 
+                    ids: ["bidwh1D", "wR2NpTV", "IMrOUcP", "Hdi04Sg", "OcGaTXA", "wJZiwkG", "jDgxhBQ", "USQgVk8", "4bhAWa5", "0LL3muu"] 
                 },
-                { 
-                    marquee: "✧ PhotoScape - Parpadeo - 100~300 Xats ✧", 
-                    prefix: "Parpadeo", 
-                    ids: [
-                        "bXTTG5V", "MdemxH0", "VpU6eOY", "NUIGQ3f", "NP25oCb", "mXHqKwc", "bKcj9xf" // 7
-                    ] 
+                { marquee: "✧ PhotoScape - Parpadeo - 100~300 Xats ✧", prefix: "Parpadeo", 
+                    ids: ["bXTTG5V", "MdemxH0", "VpU6eOY", "NUIGQ3f", "NP25oCb", "mXHqKwc", "bKcj9xf"] 
                 }
             ];
 
@@ -290,14 +259,11 @@
                          </div></div><div class="grid-container">`;
                 s.ids.forEach((id, i) => {
                     h += `<div class="card" onclick="openZoom('https://i.imgur.com/${id}.gif')">
-                            <img src="https://i.imgur.com/${id}.gif">
-                            <div class="label">${s.prefix} - ${i+1}</div>
-                          </div>`;
+                            <img src="https://i.imgur.com/${id}.gif"><div class="label">${s.prefix} - ${i+1}</div></div>`;
                 });
                 gifSec.innerHTML += h + `</div>`;
             });
         }
-
         window.onload = render;
     </script>
 </body>
