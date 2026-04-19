@@ -18,7 +18,7 @@
             overscroll-behavior-y: contain; 
         }
 
-        /* BARRA DE ROLAGEM */
+        /* BARRA DE ROLAGEM PADRÃO */
         .nav-container::-webkit-scrollbar,
         .content-area::-webkit-scrollbar,
         #inicio::-webkit-scrollbar,
@@ -354,23 +354,12 @@
 
     <div id="visit-counter">
         <span style="color: var(--neon-blue); font-size: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">Visitas</span>
-        <span id="count-number" style="color: #fff; font-size: 18px; font-family: monospace;">...</span>
+        <img src="https://counting.io/api/v1/count/count.svg?id=1011801&color=ffffff&bg=00000000&label= " alt="Contador" style="height: 20px;">
     </div>
 
     <div id="modalZoom" class="modal" onclick="closeZoom()"><img class="modal-content" id="imgZoom"></div>
 
     <script>
-        // RECUPERADO O ID ORIGINAL PARA VOLTAR AS 350 VISITAS
-        const ID_VISITAS = "galeria_wrs_2026"; 
-        
-        async function carregarContadores() {
-            try {
-                const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
-                const dataV = await resV.json();
-                document.getElementById('count-number').innerText = dataV.count || dataV.value;
-            } catch(e) { document.getElementById('count-number').innerText = "1"; }
-        }
-
         function toggleXatMenu() {
             const menu = document.getElementById('xat-menu');
             menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
@@ -409,7 +398,7 @@
         function entrarGaleria() {
             const intro = document.getElementById('intro-screen');
             intro.style.opacity = '0'; intro.style.transform = 'scale(1.1)'; intro.style.visibility = 'hidden';
-            setTimeout(() => { intro.style.display = 'none'; carregarContadores(); }, 1000); 
+            setTimeout(() => { intro.style.display = 'none'; }, 1000); 
             togglePlay(); 
         }
 
@@ -463,19 +452,34 @@
 
             const configs = [
                 { id: 'pcback-gif', marquee: "✧ Pcback Gif - 450 Xats ✧", label: "PCBack Gif", 
-                    urls: ['SFnk7A6.gif', 'KKY2zqU.gif', 'fmhynyY.gif', '28xDTg0.gif', '9R35WMu.gif', 'kSK0E1f.gif', 'l2y5xFa.gif', 'ZDbAiNK.gif', 'fRmpR5e.gif', 'TUdO2r8.gif', 'clgE48o.gif', 'gWgkiku.gif', 'vS55bUO.gif', 'Xib4qKf.gif', 'pcGjNGM.gif', 'n4JMxfr.gif', 'XrJTb1e.gif', 'dyvcHuK.gif', 'l8jI2ia.gif', 'UlnuUQG.gif', 'opekB2r.gif'] 
+                    urls: [
+                        'SFnk7A6.gif', 'KKY2zqU.gif', 'fmhynyY.gif', '28xDTg0.gif', '9R35WMu.gif', 'kSK0E1f.gif', 'l2y5xFa.gif', 'ZDbAiNK.gif', 'fRmpR5e.gif', 'TUdO2r8.gif',
+                        'clgE48o.gif', 'gWgkiku.gif', 'vS55bUO.gif', 'Xib4qKf.gif', 'pcGjNGM.gif', 'n4JMxfr.gif', 'XrJTb1e.gif', 'dyvcHuK.gif', 'l8jI2ia.gif', 'UlnuUQG.gif',
+                        'opekB2r.gif'
+                    ] 
                 },
                 { id: 'pstyle-gif', marquee: "✧ Pstyle Gif - 350 Xats ✧", label: "Pstyle Gif", 
-                    urls: ['rUIzfWU.gif', 'dGfJDfh.gif', 'ZXBA6F1.gif', 'dImC226.gif', '4P6kTS6.gif', 'E6fZa1k.gif', 'iaCw0P8.gif', '3mC3Qgh.gif', 'jSyWPEs.gif', 'vLnBaqA.gif', 'LmDTRY5.gif', 'PhxEvbL.gif', '1pMwbMm.gif', '7KedrNM.gif', 'yqLPTKa.gif', 'FoW5FXN.gif', 'vWDVot8.gif', 'RJHbbfm.gif'] 
+                    urls: [
+                        'rUIzfWU.gif', 'dGfJDfh.gif', 'ZXBA6F1.gif', 'dImC226.gif', '4P6kTS6.gif', 'E6fZa1k.gif', 'iaCw0P8.gif', '3mC3Qgh.gif', 'jSyWPEs.gif', 'vLnBaqA.gif',
+                        'LmDTRY5.gif', 'PhxEvbL.gif', '1pMwbMm.gif', '7KedrNM.gif', 'yqLPTKa.gif', 'FoW5FXN.gif', 'vWDVot8.gif', 'RJHbbfm.gif'
+                    ] 
                 },
                 { id: 'pcback-est', marquee: "✧ Pcback Estático - 300 Xats ✧", label: "PCBack", 
-                    urls: ['OyX4Jwt.png', 'dbSy2Rf.png', 'uBp1ypU.png', '83Glu7j.png', 'QtSYA09.png', 'WDKosnm.png', 'WfVIivT.png', 'ojcJMIb.png', 'Dn05p8R.png', '5iJRrrF.png', 'uBp1ypU.png', '98FssR8.png'] 
+                    urls: [
+                        'OyX4Jwt.png', 'dbSy2Rf.png', 'uBp1ypU.png', '83Glu7j.png', 'QtSYA09.png', 'WDKosnm.png', 'WfVIivT.png', 'ojcJMIb.png', 'Dn05p8R.png', '5iJRrrF.png',
+                        'uBp1ypU.png', '98FssR8.png'
+                    ] 
                 },
                 { id: 'pstyle-est', marquee: "✧ Pstyle Estático - 250 Xats ✧", label: "Pstyle", 
-                    urls: ['Ii4pk4g.png', 'm2Ew85b.png', 'zlcL7Dh.png'] 
+                    urls: [
+                        'Ii4pk4g.png', 'm2Ew85b.png', 'zlcL7Dh.png'
+                    ] 
                 },
                 { id: 'fundos', marquee: "✧ Fundos - 500 Xats ✧", label: "FUNDO", 
-                    urls: ['eJtGG3D.png', 'Q8XwtQZ.png', '6phSrhR.png', 'yeQZf5S.png', 'RDsR3k5.png', 'EXCVWDO.png', 'umcaiMq.png', 'hzjUj8q.png', 'zQj5X8P.png', 'OojsaCj.png', 'EHK0Ik0.png', 'sSfzBLf.png', 'J6tAgOm.png', 'hqxUYUr.png'] 
+                    urls: [
+                        'eJtGG3D.png', 'Q8XwtQZ.png', '6phSrhR.png', 'yeQZf5S.png', 'RDsR3k5.png', 'EXCVWDO.png', 'umcaiMq.png', 'hzjUj8q.png', 'zQj5X8P.png', 'OojsaCj.png',
+                        'EHK0Ik0.png', 'sSfzBLf.png', 'J6tAgOm.png', 'hqxUYUr.png'
+                    ] 
                 }
             ];
 
