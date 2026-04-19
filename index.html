@@ -18,7 +18,7 @@
             overscroll-behavior-y: contain; 
         }
 
-        /* BARRA DE ROLAGEM PADRÃO */
+        /* BARRA DE ROLAGEM */
         .nav-container::-webkit-scrollbar,
         .content-area::-webkit-scrollbar,
         #inicio::-webkit-scrollbar,
@@ -360,17 +360,18 @@
     <div id="modalZoom" class="modal" onclick="closeZoom()"><img class="modal-content" id="imgZoom"></div>
 
     <script>
-        // Configuração do ID do contador para manter os dados anteriores
+        // Configuração do seu ID de contagem original
         const ID_VISITAS = "galeria_wrs_2026_main"; 
 
         async function carregarContadores() {
             try {
+                // Sincroniza com a API para obter a contagem real
                 const resV = await fetch(`https://api.counterapi.dev/v1/wrs-galeria/${ID_VISITAS}/up`);
                 const dataV = await resV.json();
                 document.getElementById('count-number').innerText = dataV.count || dataV.value;
             } catch(e) {
                 console.error("Erro ao carregar contador:", e);
-                document.getElementById('count-number').innerText = "300+";
+                document.getElementById('count-number').innerText = "000";
             }
         }
 
