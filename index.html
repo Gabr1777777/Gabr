@@ -1,38 +1,39 @@
-<!-- Otimização de Carregamento da Galeria -->
-<style>
-    /* Renderização ágil: instrui o navegador a focar no conteúdo visível primeiro */
-    img, iframe, .gif-container {
-        content-visibility: auto;
-        contain-intrinsic-size: 300px 300px; /* Estimativa de tamanho para evitar saltos de layout */
-        image-rendering: -webkit-optimize-contrast;
-    }
-
-    /* Suaviza a exibição para evitar travamentos de CPU ao decodificar GIFs */
-    img {
-        will-change: transform;
-        transform: translateZ(0);
-    }
-</style>
+<!-- Otimização Crítica de Performance -->
+<link rel="preconnect" href="https://dl.dropboxusercontent.com" crossorigin>
+<link rel="dns-prefetch" href="https://dl.dropboxusercontent.com">
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Força o carregamento 'lazy' em todas as imagens que não possuem o atributo
-        const images = document.querySelectorAll("img");
-        images.forEach(img => {
-            if (!img.hasAttribute("loading")) {
-                img.setAttribute("loading", "lazy");
+    // Bloqueia o "travamento" da renderização enquanto as imagens carregam
+    (function() {
+        // Instrução para o navegador priorizar a velocidade de exibição
+        const optimize = {
+            priority: 'high',
+            loading: 'eager',
+            decoding: 'async'
+        };
+        
+        // Aplica configurações de GPU antes da página montar o CSS
+        const style = document.createElement('style');
+        style.innerHTML = `
+            img { 
+                content-visibility: auto; 
+                image-rendering: -webkit-optimize-contrast; 
+                transform: translateZ(0); 
             }
-            // Decodificação assíncrona para não travar a thread principal
-            img.decoding = "async";
-        });
-    });
-
-    // Prioridade de rede: Avisa ao navegador para baixar recursos críticos primeiro
-    window.onload = function() {
-        const perfEntries = performance.getEntriesByType("resource");
-        console.log("Galeria otimizada: Recursos carregados.");
-    };
+            * {
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+        `;
+        document.head ? document.head.appendChild(style) : document.documentElement.appendChild(style);
+    })();
 </script>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+...
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
