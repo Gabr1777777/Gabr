@@ -1,34 +1,80 @@
-<!-- Otimização Crítica de Performance -->
-<link rel="preconnect" href="https://dl.dropboxusercontent.com" crossorigin>
-<link rel="dns-prefetch" href="https://dl.dropboxusercontent.com">
-
+<!-- CÓDIGO DEFINITIVO DE PERFORMANCE - GALERIA WRS -->
 <script>
-    // Bloqueia o "travamento" da renderização enquanto as imagens carregam
-    (function() {
-        // Instrução para o navegador priorizar a velocidade de exibição
-        const optimize = {
-            priority: 'high',
-            loading: 'eager',
-            decoding: 'async'
-        };
-        
-        // Aplica configurações de GPU antes da página montar o CSS
-        const style = document.createElement('style');
-        style.innerHTML = `
-            img { 
-                content-visibility: auto; 
-                image-rendering: -webkit-optimize-contrast; 
-                transform: translateZ(0); 
+    /* 1. Otimização de Rede: Abre as portas para o servidor de arquivos imediatamente */
+    const preconnects = ['https://dl.dropboxusercontent.com', 'https://www.dropbox.com'];
+    preconnects.forEach(url => {
+        const link = document.createElement('link');
+        link.rel = 'preconnect';
+        link.href = url;
+        link.crossOrigin = "anonymous";
+        document.head ? document.head.appendChild(link) : document.documentElement.appendChild(link);
+    });
+
+    /* 2. Script de Renderização Prioritária */
+    const observerOptions = {
+        root: null, // usa a viewport como base
+        rootMargin: '200px 0px', // carrega o GIF 200px antes de ele aparecer na tela
+        threshold: 0.01
+    };
+
+    const optimizeImage = (img) => {
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.setAttribute("fetchpriority", "low");
+        // Força a aceleração por hardware via CSS inline para garantir
+        img.style.transform = "translateZ(0)";
+        img.style.webkitTransform = "translateZ(0)";
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.tagName === 'IMG') {
+                    optimizeImage(img);
+                    // Se o src estiver no data-src, ele ativa aqui
+                    if (img.dataset.src) img.src = img.dataset.src;
+                }
             }
-            * {
-                -webkit-backface-visibility: hidden;
-                backface-visibility: hidden;
+        });
+    }, observerOptions);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const images = document.querySelectorAll("img");
+        images.forEach((img, index) => {
+            if (index < 4) {
+                // Os primeiros 4 GIFs carregam com prioridade máxima (topo da página)
+                img.setAttribute("fetchpriority", "high");
+                img.decoding = "sync";
+            } else {
+                // O restante só carrega quando o usuário rolar
+                observer.observe(img);
             }
-        `;
-        document.head ? document.head.appendChild(style) : document.documentElement.appendChild(style);
-    })();
+        });
+    });
 </script>
 
+<style>
+    /* Força o navegador a ignorar o que não está na tela (Reduz uso de CPU) */
+    img {
+        content-visibility: auto;
+        contain-intrinsic-size: 300px 300px;
+        image-rendering: -webkit-optimize-contrast;
+        backface-visibility: hidden;
+    }
+    
+    /* Evita travamentos durante o scroll na galeria */
+    .gallery-container, section, div {
+        will-change: transform;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Galeria Profissional WRS</title>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
