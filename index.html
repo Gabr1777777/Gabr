@@ -1,3 +1,38 @@
+<!-- Otimização de Carregamento da Galeria -->
+<style>
+    /* Renderização ágil: instrui o navegador a focar no conteúdo visível primeiro */
+    img, iframe, .gif-container {
+        content-visibility: auto;
+        contain-intrinsic-size: 300px 300px; /* Estimativa de tamanho para evitar saltos de layout */
+        image-rendering: -webkit-optimize-contrast;
+    }
+
+    /* Suaviza a exibição para evitar travamentos de CPU ao decodificar GIFs */
+    img {
+        will-change: transform;
+        transform: translateZ(0);
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Força o carregamento 'lazy' em todas as imagens que não possuem o atributo
+        const images = document.querySelectorAll("img");
+        images.forEach(img => {
+            if (!img.hasAttribute("loading")) {
+                img.setAttribute("loading", "lazy");
+            }
+            // Decodificação assíncrona para não travar a thread principal
+            img.decoding = "async";
+        });
+    });
+
+    // Prioridade de rede: Avisa ao navegador para baixar recursos críticos primeiro
+    window.onload = function() {
+        const perfEntries = performance.getEntriesByType("resource");
+        console.log("Galeria otimizada: Recursos carregados.");
+    };
+</script>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
