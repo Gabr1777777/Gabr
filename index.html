@@ -1,57 +1,78 @@
-<!-- CÓDIGO DEFINITIVO DE PERFORMANCE - GALERIA WRS -->
+<!-- CÓDIGO DE PERFORMANCE ULTRA - GALERIA WRS -->
 <script>
-    /* 1. Otimização de Rede: Abre as portas para o servidor de arquivos imediatamente */
-    const preconnects = ['https://dl.dropboxusercontent.com', 'https://www.dropbox.com'];
-    preconnects.forEach(url => {
-        const link = document.createElement('link');
-        link.rel = 'preconnect';
-        link.href = url;
-        link.crossOrigin = "anonymous";
-        document.head ? document.head.appendChild(link) : document.documentElement.appendChild(link);
-    });
+    (function() {
+        /* 1. DNS-Prefetch e Preconnect Agressivo */
+        const domains = [
+            'https://dl.dropboxusercontent.com',
+            'https://www.dropbox.com',
+            'https://ucarecdn.com' // Caso use CDN futuramente
+        ];
+        
+        const fragment = document.createDocumentFragment();
+        domains.forEach(url => {
+            const preconnect = document.createElement('link');
+            preconnect.rel = 'preconnect';
+            preconnect.href = url;
+            preconnect.crossOrigin = "anonymous";
+            
+            const dnsPrefetch = document.createElement('link');
+            dnsPrefetch.rel = 'dns-prefetch';
+            dnsPrefetch.href = url;
+            
+            fragment.appendChild(preconnect);
+            fragment.appendChild(dnsPrefetch);
+        });
+        document.head.appendChild(fragment);
 
-    /* 2. Script de Renderização Prioritária */
-    const observerOptions = {
-        root: null, // usa a viewport como base
-        rootMargin: '200px 0px', // carrega o GIF 200px antes de ele aparecer na tela
-        threshold: 0.01
-    };
+        /* 2. Configuração do Observer com Margem Inteligente */
+        const observerOptions = {
+            root: null,
+            // Aumentamos para 400px para o GIF carregar antes do scroll chegar
+            rootMargin: '400px 0px', 
+            threshold: 0.01
+        };
 
-    const optimizeImage = (img) => {
-        img.loading = "lazy";
-        img.decoding = "async";
-        img.setAttribute("fetchpriority", "low");
-        // Força a aceleração por hardware via CSS inline para garantir
-        img.style.transform = "translateZ(0)";
-        img.style.webkitTransform = "translateZ(0)";
-    };
+        const loadVisual = (img) => {
+            if (img.dataset.src) {
+                // Remove o delay de renderização
+                img.decoding = "async"; 
+                img.src = img.dataset.src;
+                
+                img.onload = () => {
+                    img.classList.add('loaded');
+                    img.style.opacity = "1";
+                };
+            }
+        };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                if (img.tagName === 'IMG') {
-                    optimizeImage(img);
-                    // Se o src estiver no data-src, ele ativa aqui
-                    if (img.dataset.src) img.src = img.dataset.src;
+        const observer = new IntersectionObserver((entries, self) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    loadVisual(entry.target);
+                    self.unobserve(entry.target); // Para de observar após carregar
                 }
-            }
-        });
-    }, observerOptions);
+            });
+        }, observerOptions);
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const images = document.querySelectorAll("img");
-        images.forEach((img, index) => {
-            if (index < 4) {
-                // Os primeiros 4 GIFs carregam com prioridade máxima (topo da página)
-                img.setAttribute("fetchpriority", "high");
-                img.decoding = "sync";
-            } else {
-                // O restante só carrega quando o usuário rolar
-                observer.observe(img);
-            }
+        document.addEventListener("DOMContentLoaded", () => {
+            const images = document.querySelectorAll("img[data-src]");
+            
+            images.forEach((img, index) => {
+                // CSS inicial para evitar pulos na tela (Layout Shift)
+                img.style.transition = "opacity 0.3s ease-in";
+                img.style.opacity = "0";
+
+                if (index < 6) { 
+                    // Aumentamos para os 6 primeiros (topo da galeria)
+                    img.setAttribute("fetchpriority", "high");
+                    loadVisual(img);
+                } else {
+                    img.setAttribute("fetchpriority", "low");
+                    observer.observe(img);
+                }
+            });
         });
-    });
+    })();
 </script>
 
 <style>
