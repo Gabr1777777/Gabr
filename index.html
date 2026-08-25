@@ -309,7 +309,7 @@
 
     <div id="copyright-alert" class="copy-alert">
         <h3>COPYRIGHT - ACESSO PROIBIDO</h3>
-        <p>Propriedade de Gabr (1777777)</p>
+        <p>Propriedade de Lean (1553342014)</p>
     </div>
 
     <div id="intro-screen">
@@ -328,7 +328,7 @@
 
     <div class="perfil-header">
         <h1>GALERIA DE GIFS</h1>
-        <p>Gabr (1777777)</p>
+        <p>Lean (1553342014)</p>
     </div>
 
     <div class="main-wrapper" id="mainWrapper">
@@ -336,13 +336,10 @@
             <button class="nav-btn active" onclick="showTab('inicio')"><span>Início</span></button>
             <button class="nav-btn" onclick="showTab('gifs')"><span>GIFS</span></button>
             <button class="nav-btn" onclick="showTab('pcback-gif')"><span>PCBACK GIFS</span></button>
-            <button class="nav-btn" onclick="showTab('pstyle-gif')"><span>PSTYLE GIFS</span></button>
             <button class="nav-btn" onclick="showTab('pcback-est')"><span>PCBACK ESTÁTICO</span></button>
-            <button class="nav-btn" onclick="showTab('pstyle-est')"><span>PSTYLE ESTÁTICO</span></button>
-            <button class="nav-btn" onclick="showTab('fundos')"><span>FUNDOS</span></button>
             <div class="nav-btn" onclick="irPara('https://gabr1777777.github.io/GaleriaXatspace/')"><span>XATSPACE</span></div>
             <button class="nav-btn" onclick="showTab('player')"><span>Player</span></button>
-            <div class="exclusive-footer">Galeria exclusiva 2026 - By: Gabr (1777777)</div>
+            <div class="exclusive-footer">Galeria exclusiva 2026 - By: Lean (1553342014)</div>
         </div>
 
         <div class="content-area">
@@ -393,7 +390,7 @@
 
         async function updateStatus() {
             try {
-                const res = await fetch('https://illuxat.com/api/online/Gabr');
+                const res = await fetch('https://illuxat.com/api/online/Leandro2014');
                 const json = await res.json();
                 const dot = document.getElementById('status-dot');
                 const isOnline = json.data?.status?.toLowerCase() === 'online';
@@ -493,7 +490,6 @@
             const dataGifs = [
                 { marquee: "✧ BLUFFTITLER - ONLY NAME - 250 XATS ✧", prefix: "Name - ", ids: ["bidwh1D", "wR2NpTV", "IMrOUcP", "Hdi04Sg", "OcGaTXA", "wJZiwkG", "jDgxhBQ", "USQgVk8", "4bhAWa5", "0LL3muu"] },
                 { marquee: "✧ BLUFFTITLER - NAME + PHOTO - 350 XATS ✧", prefix: "Bluff - ", ids: ["F0b4mnJ", "65bzz5V", "ZetkVFF", "JqzxOwt", "NK9Z8rU", "RNIlFI3", "bSmUjsQ", "R6klF5K", "cgyGLHQ", "ctF1vyH", "Ge90Xy7", "7Z8xEC8", "G8HFkiG", "sh7u3UM", "y0WgmxJ", "Vvw2SMU", "uoNJlEe"] },
-                { marquee: "✧ CANVA - NAME + PHOTO - 300 XATS ✧", prefix: "Canva - ", ids: ["hWVyLox", "Uxlzu5C", "Crt716T", "xo4npxf", "jUG54d4", "gMQ3Fo9", "xvM1ixb", "cwRIh51", "db8sdi9", "nRJQ0BB"] },
                 { marquee: "✧ AFTEREFECTS - NAME + PHOTO - 400 XATS ✧", prefix: "After - ", ids: ["S5pXaVI", "qQB5w4C", "QlniJvg", "shyBpPS", "LzTvWk4", "aLBEkKq", "kJmAoul", "uOwOmwM", "u0Cse5Q", "ioDaClP", "PD03EYd", "HVFwoO9", "ueBRxvV", "XkwoKCf", "ULcq67R", "afxBCK8", "NKjJIGs", "xDhKvCC", "vvcOaEK", "ups9FgX", "JeY6A7M", "zDyoEgZ", "0FklDw9", "FX6gdFw", "V3LO0YG", "r9yfJNZ", "R3sO6Dv", "P8DpN4L", "fRfZuO7", "BPgPihm", "5HxfNaB", "FILAVQP", "5IoR515", "KUQ1WsX", "ZuaO9n5", "eYUpRds", "EkhA4lw", "ufOP9QG", "w2URYst", "1uMiE0k", "JQaMJ7U", "JeVcLkk", "un368jG", "LaClQL2", "l3Az3Nz", "8ME12WB", "SWSOcvf", "HizA7mV", "HnIaNDX", "bStEaxn", "CgwrMHf", "MtDrchh", "P4UINMY", "F0ujERT", "lHdM40L", "vWKX5Fb", "UHq0679", "2tRaU1S", "XQJ8R9h", "n4sAIhn", "LaJAK5L", "RIDkkSc", "ogHzac1", "aV63fjn", "tSuJOKg", "MxeKAfQ", "A4chzU3", "bAXpFow", "d1wToYT", "IXCqwlR", "kv1EWDW", "FIulKIF", "qLhMZAE", "R9nl6Ch", "A7x7PhX", "XU4klcy", "DRUBV0y", "geacP52", "lNh2rdL", "rS3PItx", "AzuyKg4", "aT6Rk4H", "0uZHgJW", "cyLfXAp", "omfCtkk", "lbauLSs", "s1rQrgg", "WNwfYTh", "XO8NzcJ", "6orVlLG", "Ocbami8", "oiVshBX", "bIP35gN", "Lwk0DWm", "N0FdNiy", "R7sOEoQ", "jrQMS1Q", "DA0VYtJ", "k21g4fQ"] },
                 { marquee: "✧ AFTEREFECTS - NAME + (2) PHOTO - 500 XATS ✧", prefix: "Love - ", ids: ["NnEIlrv", "8hrgq1D", "MqnmO8R", "oRvL0X3", "luwMPoD"] },
                 { marquee: "✧ AFTEREFECTS - DJ - NAME + PHOTO 450 XATS ✧", prefix: "DJ - ", ids: ["Bj6WFKZ", "GGrjZnE", "jJefFUv", "tesP8Me", "VRBqDtS", "WnnPvsU"] },
@@ -510,41 +506,6 @@
                 });
                 h += `</div>`; gifSec.innerHTML += h;
             });
-
-            const configs = [
-                { id: 'pcback-gif', marquee: "✧ PCBACK GIF  - 450 XATS ✧", label: "PCBack Gif", 
-                    urls: [
-                        'SFnk7A6.gif', 'KKY2zqU.gif', 'fmhynyY.gif', '28xDTg0.gif', '9R35WMu.gif', 'kSK0E1f.gif', 'l2y5xFa.gif', 'ZDbAiNK.gif', 'fRmpR5e.gif', 'TUdO2r8.gif',
-                        'clgE48o.gif', 'gWgkiku.gif', 'vS55bUO.gif', 'Xib4qKf.gif', 'pcGjNGM.gif', 'n4JMxfr.gif', 'XrJTb1e.gif', 'dyvcHuK.gif', 'l8jI2ia.gif', 'UlnuUQG.gif',
-                        'opekB2r.gif', '0uvOiJm.gif', '2kEbWrY.gif', '07m3bwV.gif', 'D2JnSmE.gif'
-                    ] 
-                },
-                { id: 'pstyle-gif', marquee: "✧ PSTYLE GIF - 350 XATS ✧", label: "Pstyle Gif", 
-                    urls: [
-                        'rUIzfWU.gif', 'dGfJDfh.gif', 'ZXBA6F1.gif', 'dImC226.gif', '4P6kTS6.gif', 'E6fZa1k.gif', 'iaCw0P8.gif', '3mC3Qgh.gif', 'jSyWPEs.gif', 'vLnBaqA.gif',
-                        'LmDTRY5.gif', 'PhxEvbL.gif', '1pMwbMm.gif', '7KedrNM.gif', 'yqLPTKa.gif', 'FoW5FXN.gif', 'vWDVot8.gif', 'RJHbbfm.gif', 'PHiebbT.gif', 'Rcqw2MT.gif',
-                        'whcMVzN.gif', 'zgC18pX.gif'
-                    ] 
-                },
-                { id: 'pcback-est', marquee: "✧ PCBACK ESTÁTICO - 300 XATS ✧", label: "PCBack", 
-                    urls: [
-                        'OyX4Jwt.png', 'dbSy2Rf.png', 'uBp1ypU.png', '83Glu7j.png', 'QtSYA09.png', 'WDKosnm.png', 'WfVIivT.png', 'ojcJMIb.png', 'Dn05p8R.png', '5iJRrrF.png',
-                        'uBp1ypU.png', '98FssR8.png', 'MxVwAsp.png', 'RxlqG4b.png', 'TdAGQpt.png'
-                    ] 
-                },
-                { id: 'pstyle-est', marquee: "✧ PSTYLE ESTÁTICO - 250 XATS ✧", label: "Pstyle", 
-                    urls: [
-                        'Ii4pk4g.png', 'm2Ew85b.png', 'zlcL7Dh.png', 'E6C3t04.png', '6PUSQBo.png', 'Zpv9tET.png', 'eqKUD5c.png', 'zTFcRvU.png', 'Sl2JhZi.png', '3rUpT2u.png'
-                    ] 
-                },
-                { id: 'fundos', marquee: "✧ FUNDOS - 700 XATS ✧", label: "FUNDO", 
-                    urls: [
-                        'eJtGG3D.png', 'Q8XwtQZ.png', '6phSrhR.png', 'yeQZf5S.png', 'RDsR3k5.png', 'EXCVWDO.png', 'umcaiMq.png', 'hzjUj8q.png', 'zQj5X8P.png', 'OojsaCj.png',
-                        'EHK0Ik0.png', 'sSfzBLf.png', 'J6tAgOm.png', 'hqxUYUr.png', 'COfEeEX.png', 'BKGUII2.png'
-                    ] 
-                }
-            ]
-
             configs.forEach(c => {
                 const target = document.getElementById(c.id);
                 if (target) {
