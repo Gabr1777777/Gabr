@@ -33,12 +33,12 @@
 
             const observerOptions = {
                 root: null,
-                rootMargin: '400px 0px', 
+                rootMargin: '600px 0px', 
                 threshold: 0.01
             };
 
             const loadVisual = (img) => {
-                if (img.dataset.src) {
+                if (img.dataset.src && !img.src) {
                     img.decoding = "async"; 
                     img.src = img.dataset.src;
                     img.onload = () => {
@@ -79,6 +79,12 @@
             image-rendering: -webkit-optimize-contrast;
             backface-visibility: hidden;
             transition: opacity 0.3s ease-in;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: auto;
         }
 
         .nav-container::-webkit-scrollbar,
@@ -271,7 +277,7 @@
         .grid-container { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
         .grid-gifs { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
         
-        .card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); border-radius: 4px; overflow: hidden; text-align: center; cursor: zoom-in; transition: 0.3s; }
+        .card { background: var(--card-bg); border: 1px solid rgba(34, 34, 34, 0.5); border-radius: 4px; overflow: hidden; text-align: center; cursor: zoom-in; transition: 0.3s; min-height: 100px; }
         .card:hover { border-color: var(--neon-red); transform: scale(1.05); box-shadow: 0 0 25px var(--neon-red); background: rgba(17, 17, 17, 0.8); }
         .card img { width: 100%; display: block; opacity: 0; }
         .card .label { padding: 5px; font-size: 10px; text-transform: uppercase; font-weight: bold; color: #fff; background: rgba(0,0,0,0.5); }
@@ -314,7 +320,7 @@
 
     <div id="intro-screen">
         <div class="moldura-flutuante">
-            <img src="https://i.imgur.com/pXx3n20.png">
+            <img src="https://i.imgur.com/pXx3n20.png" draggable="false">
             <div id="status-dot" title="Verificando status..."></div>
         </div>
         <button class="btn-entrar" onclick="entrarGaleria()">Entrar</button>
@@ -384,7 +390,7 @@
         </div>
     </div>
 
-    <div id="modalZoom" class="modal" onclick="closeZoom()"><img class="modal-content" id="imgZoom"></div>
+    <div id="modalZoom" class="modal" onclick="closeZoom()"><img class="modal-content" id="imgZoom" draggable="false"></div>
 
     <script>
         document.addEventListener('mousemove', function(e) {
@@ -393,6 +399,14 @@
             star.style.left = e.pageX + 'px'; star.style.top = e.pageY + 'px';
             document.body.appendChild(star);
             setTimeout(() => { star.remove(); }, 700);
+        });
+
+        // Bloqueia o arrasto de imagens no nível global
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+                return false;
+            }
         });
 
         function irPara(url) { window.open(url, '_blank'); }
@@ -462,6 +476,16 @@
             togglePlay(); 
         }
 
+        function forceLoadGifs() {
+            const lazyImages = document.querySelectorAll('#gifs img.lazy');
+            lazyImages.forEach(img => {
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.style.opacity = "1";
+                }
+            });
+        }
+
         function showTab(id) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -478,6 +502,10 @@
                     btn.classList.add('active');
                 }
             });
+
+            if (id === 'gifs') {
+                setTimeout(forceLoadGifs, 50);
+            }
 
             if (window.innerWidth <= 768) { document.getElementById('mainWrapper').classList.add('nav-hidden'); }
         }
@@ -507,20 +535,15 @@
             dataGifs.forEach(sec => {
                 let h = `<div class="marquee-container"><div class="marquee-content"><span class="texto-animado">${sec.marquee}</span></div></div><div class="grid-gifs">`;
                 sec.ids.forEach((id, i) => { 
-                    h += `<div class="card" onclick="openZoom('https://i.imgur.com/${id}.gif')"><img data-src="https://i.imgur.com/${id}.gif" class="lazy"><div class="label">${sec.prefix}${i+1}</div></div>`; 
+                    h += `<div class="card" onclick="openZoom('https://i.imgur.com/${id}.gif')"><img data-src="https://i.imgur.com/${id}.gif" class="lazy" draggable="false"><div class="label">${sec.prefix}${i+1}</div></div>`; 
                 });
                 h += `</div>`; gifSec.innerHTML += h;
             });
 
             // Ativar Observer de Imagens
             const lazyImages = document.querySelectorAll('img.lazy');
-            lazyImages.forEach((img, idx) => {
-                if(idx < 6) {
-                    img.src = img.dataset.src;
-                    img.style.opacity = "1";
-                } else {
-                    window.observer.observe(img);
-                }
+            lazyImages.forEach((img) => {
+                window.observer.observe(img);
             });
         }
         window.onload = render;
