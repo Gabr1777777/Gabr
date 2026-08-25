@@ -337,7 +337,7 @@
             <button class="nav-btn" onclick="showTab('gifs')"><span>GIFS</span></button>
             <button class="nav-btn" onclick="showTab('pcback-gif')"><span>PCBACK GIFS</span></button>
             <button class="nav-btn" onclick="showTab('pcback-est')"><span>PCBACK ESTÁTICO</span></button>
-            <div class="nav-btn" onclick="irPara('https://gabr1777777.github.io/GaleriaXatspace/')"><span>XATSPACE</span></div>
+            <button class="nav-btn" onclick="irPara('https://gabr1777777.github.io/GaleriaXatspace/')"><span>XATSPACE</span></button>
             <button class="nav-btn" onclick="showTab('player')"><span>Player</span></button>
             <div class="exclusive-footer">Galeria exclusiva 2026 - By: Lean (1553342014)</div>
         </div>
@@ -378,6 +378,12 @@
     <div id="modalZoom" class="modal" onclick="closeZoom()"><img class="modal-content" id="imgZoom"></div>
 
     <script>
+        // Declaração das configurações adicionais para renderização das seções (PCBACK e PSTYLE)
+        const configs = [
+            { id: 'pcback-gif', marquee: "✧ PCBACK GIFS ✧", label: "PCBACK GIF", urls: [] },
+            { id: 'pcback-est', marquee: "✧ PCBACK ESTÁTICO ✧", label: "PCBACK EST", urls: [] }
+        ];
+
         document.addEventListener('mousemove', function(e) {
             const star = document.createElement('div');
             star.classList.add('cursor-star');
@@ -421,7 +427,7 @@
         }
 
         document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83) || e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
+            if ((e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83)) || e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
                 showAlert(); e.preventDefault(); return false;
             }
         });
@@ -462,7 +468,7 @@
                 target.scrollTop = 0; 
                 document.querySelector('.content-area').scrollTop = 0;
             }
-            // Manter botão ativo
+            
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => {
                 if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(id)) {
@@ -506,6 +512,7 @@
                 });
                 h += `</div>`; gifSec.innerHTML += h;
             });
+
             configs.forEach(c => {
                 const target = document.getElementById(c.id);
                 if (target) {
